@@ -1,0 +1,47 @@
+.az-hero-editor {
+  padding: 0;
+  margin: 0;
+
+  .az-hero-mock {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    min-height: 500px;
+    background: var(--bg);
+    border: 1px solid var(--border-light);
+
+    .az-hero-content-mock {
+      padding: 60px 40px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      border-right: 1px solid var(--border-light);
+    }
+
+    .az-hero-visual-mock {
+      background-size: cover;
+      background-position: center;
+      position: relative;
+      min-height: 500px;
+
+      .hero-float-tag {
+        position: absolute;
+        bottom: 30px;
+        left: 30px;
+        background: var(--crimson);
+        padding: 14px 20px;
+        color: #fff;
+
+        p {
+          margin: 0 0 4px;
+          font-size: 8px;
+          text-transform: uppercase;
+          color: #fff !important;
+        }
+        span {
+          font-family: "Cormorant Garamond", serif;
+          font-size: 16px;
+        }
+      }
+    }
+  }
+}

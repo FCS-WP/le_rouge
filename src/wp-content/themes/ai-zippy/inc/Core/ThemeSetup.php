@@ -17,6 +17,9 @@ class ThemeSetup
         add_action('after_setup_theme', [self::class, 'setup']);
         add_action('init', [self::class, 'registerBlocks']);
         add_filter('block_categories_all', [self::class, 'blockCategories']);
+        add_action('wp_enqueue_scripts', 'wp_enqueue_global_styles', 1);
+        add_action('wp_enqueue_scripts', [self::class, 'enqueueFonts']);
+        add_action('enqueue_block_editor_assets', [self::class, 'enqueueFonts']);
     }
 
     /**
@@ -48,6 +51,19 @@ class ThemeSetup
         foreach (glob($blocks_dir . '/*/block.json') as $block_json) {
             register_block_type(dirname($block_json));
         }
+    }
+
+    /**
+     * Enqueue Google Fonts.
+     */
+    public static function enqueueFonts(): void
+    {
+        wp_enqueue_style(
+            'ai-zippy-google-fonts',
+            'https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&family=Montserrat:wght@300;400;500;600;700&display=swap',
+            [],
+            null
+        );
     }
 
     /**

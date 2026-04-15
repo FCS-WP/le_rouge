@@ -1,33 +1,166 @@
 @use "variables" as *;
 
-// Sticky header
-header.wp-block-group {
-	position: sticky;
-	top: 0;
-	z-index: 100;
-	transition: box-shadow $transition-speed ease;
+.site-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  background: rgba(255, 255, 255, 0.97);
+  backdrop-filter: blur(12px);
+  border-bottom: 0.5px solid var(--wp--preset--color--border-light);
+  transition: background 0.3s;
 
-	// Add shadow on scroll (via JS or native)
-	&.is-scrolled {
-		box-shadow: $box-shadow;
-	}
+  .nav-inner {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 48px;
+    height: 72px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    .nav-left-col {
+      flex: 1;
+      display: flex;
+      justify-content: flex-start;
+    }
+
+    .nav-main-menu {
+      flex: 2;
+      display: flex;
+      justify-content: center;
+    }
+
+    .nav-right-col {
+      flex: 1;
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+
+      .header-tools {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        padding-left: 24px;
+        border-left: 1px solid var(--wp--preset--color--border-light);
+
+        .wp-block-woocommerce-customer-account,
+        .header-tool-link {
+          margin: 0;
+          display: flex;
+          align-items: center;
+
+          a {
+            color: var(--wp--preset--color--muted);
+            display: flex;
+            align-items: center;
+            transition: color 0.2s;
+
+            &:hover {
+              color: var(--wp--preset--color--crimson);
+            }
+          }
+
+          svg {
+            width: 20px;
+            height: 20px;
+          }
+        }
+
+        .wc-block-mini-cart__button {
+          background: transparent;
+          border: none;
+          padding: 0;
+          display: flex;
+          align-items: center;
+          color: var(--wp--preset--color--muted);
+          transition: color 0.2s;
+
+          &:hover {
+            color: var(--wp--preset--color--crimson);
+          }
+
+          svg {
+            width: 20px;
+            height: 20px;
+          }
+
+          .wc-block-mini-cart__amount {
+            display: none;
+          }
+        }
+      }
+    }
+  }
+
+  .nav-logo {
+    height: 44px;
+    img {
+      height: 44px;
+      width: auto;
+      object-fit: contain;
+    }
+  }
+
+  .wp-block-navigation {
+    .wp-block-navigation-item__label {
+      font-family: "Montserrat", sans-serif;
+      font-size: 10px;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      color: var(--wp--preset--color--muted);
+      transition: color 0.2s;
+    }
+
+    a:hover .wp-block-navigation-item__label {
+      color: var(--wp--preset--color--crimson) !important;
+    }
+
+    // Submenus / Dropdowns
+    .wp-block-navigation__submenu-container {
+      background: var(--wp--preset--color--white);
+      border: 0.5px solid var(--wp--preset--color--border-light);
+      border-top: 2px solid var(--wp--preset--color--crimson);
+      padding: 20px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+
+      .wp-block-navigation-item__label {
+        font-size: 11px;
+        letter-spacing: 0.5px;
+        text-transform: none;
+        color: var(--wp--preset--color--muted);
+
+        &:hover {
+          color: var(--wp--preset--color--crimson) !important;
+        }
+      }
+    }
+  }
 }
 
-// Navigation links
-.wp-block-navigation a {
-	transition: color $transition-speed ease;
-
-	&:hover {
-		color: $c-accent !important;
-	}
+// Remove default WordPress block margins for the header
+.wp-block-template-part-header,
+:where(.wp-site-blocks) > .site-header {
+  margin-block-start: 0 !important;
+  margin-block-end: 0 !important;
 }
 
-// CTA button in header
-header .wp-block-button__link {
-	transition: transform $transition-speed ease, box-shadow $transition-speed ease;
+// Adjust body padding for fixed header
+body {
+  padding-top: 72px;
 
-	&:hover {
-		transform: translateY(-1px);
-		box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-	}
+  &.admin-bar .site-header {
+    top: 32px;
+  }
+}
+
+@media screen and (max-width: 782px) {
+  body {
+    padding-top: 0; // Or whatever mobile header height is
+
+    &.admin-bar .site-header {
+      top: 46px;
+    }
+  }
 }

@@ -29,6 +29,10 @@ class ProductFilterApi
      */
     public static function register(): void
     {
+        if (!function_exists('WC')) {
+            return;
+        }
+
         register_rest_route(self::NAMESPACE, '/products', [
             'methods'             => 'GET',
             'callback'            => [self::class, 'getProducts'],

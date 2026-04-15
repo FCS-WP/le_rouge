@@ -1,0 +1,31 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "ai-zippy/az-brand-intro",
+	"version": "1.0.0",
+	"title": "AZ: Brand Intro",
+	"category": "ai-zippy",
+	"icon": "align-pull-left",
+	"description": "Two-column brand philosophy section.",
+	"supports": {
+		"html": false,
+		"anchor": true,
+		"align": ["wide", "full"]
+	},
+	"attributes": {
+		"align": {
+			"type": "string",
+			"default": "full"
+		},
+		"eyebrow": { "type": "string", "default": "Our Philosophy" },
+		"heading": { "type": "string", "default": "Crafted with Intention. Chosen with Care." },
+		"btnText": { "type": "string", "default": "Visit Our Boutiques" },
+		"btnUrl": { "type": "string", "default": "#" },
+		"textLeft": { "type": "string", "default": "At Le Rouge, we believe the best bottles are the ones with a story worth sharing..." },
+		"textRight": { "type": "string", "default": "With two boutiques in the heart of Singapore's CBD..." }
+	},
+	"textdomain": "ai-zippy",
+	"editorScript": "file:./index.js",
+	"style": "file:./style-index.css",
+	"render": "file:./render.php"
+}

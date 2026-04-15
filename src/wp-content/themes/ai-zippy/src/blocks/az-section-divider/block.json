@@ -1,0 +1,22 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "ai-zippy/az-section-divider",
+	"version": "1.0.0",
+	"title": "AZ: Section Divider",
+	"category": "ai-zippy",
+	"icon": "minus",
+	"description": "Decorative divider with text.",
+	"supports": {
+		"html": false,
+		"anchor": true,
+		"align": ["wide", "full"]
+	},
+	"attributes": {
+		"text": { "type": "string", "default": "Le Rouge Selection" }
+	},
+	"textdomain": "ai-zippy",
+	"editorScript": "file:./index.js",
+	"style": "file:./style-index.css",
+	"render": "file:./render.php"
+}

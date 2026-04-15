@@ -7,18 +7,33 @@
 			"palette": [
 				{
 					"slug": "primary",
-					"color": "#1a1a1a",
-					"name": "Primary"
+					"color": "#1A0A0D",
+					"name": "Primary (Text)"
 				},
 				{
-					"slug": "secondary",
-					"color": "#f5f5f5",
-					"name": "Secondary"
+					"slug": "crimson",
+					"color": "#8B1C3F",
+					"name": "Crimson"
 				},
 				{
-					"slug": "accent",
-					"color": "#c8a97e",
-					"name": "Accent"
+					"slug": "crimson-mid",
+					"color": "#A3234B",
+					"name": "Crimson Mid"
+				},
+				{
+					"slug": "gold",
+					"color": "#B8964A",
+					"name": "Gold"
+				},
+				{
+					"slug": "bg-light",
+					"color": "#F8F5F0",
+					"name": "BG Light"
+				},
+				{
+					"slug": "bg-cream",
+					"color": "#F0EBE3",
+					"name": "BG Cream"
 				},
 				{
 					"slug": "white",
@@ -31,38 +46,18 @@
 					"name": "Black"
 				},
 				{
-					"slug": "navy",
-					"color": "#1b2a4a",
-					"name": "Navy"
-				},
-				{
-					"slug": "orange",
-					"color": "#ff6b00",
-					"name": "Orange"
-				},
-				{
-					"slug": "danger",
-					"color": "#e53935",
-					"name": "Danger"
-				},
-				{
-					"slug": "success",
-					"color": "#4caf50",
-					"name": "Success"
-				},
-				{
-					"slug": "info",
-					"color": "#2196f3",
-					"name": "Info"
-				},
-				{
 					"slug": "border",
-					"color": "#e5e5e5",
-					"name": "Border"
+					"color": "rgba(184,150,74,0.22)",
+					"name": "Border (Gold)"
+				},
+				{
+					"slug": "border-light",
+					"color": "rgba(26,10,13,0.08)",
+					"name": "Border Light"
 				},
 				{
 					"slug": "muted",
-					"color": "#999999",
+					"color": "rgba(26,10,13,0.55)",
 					"name": "Muted"
 				}
 			]
@@ -82,6 +77,16 @@
 					"fontFamily": "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', sans-serif",
 					"slug": "system",
 					"name": "System"
+				},
+				{
+					"fontFamily": "'Cormorant Garamond', serif",
+					"slug": "serif",
+					"name": "Serif (Cormorant Garamond)"
+				},
+				{
+					"fontFamily": "'Montserrat', sans-serif",
+					"slug": "sans",
+					"name": "Sans (Montserrat)"
 				}
 			],
 			"fontSizes": [

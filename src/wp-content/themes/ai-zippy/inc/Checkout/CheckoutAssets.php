@@ -50,7 +50,11 @@ class CheckoutAssets
      */
     public static function enqueue(): void
     {
-        if (!is_checkout() && !is_page('checkout')) {
+        if (!function_exists('is_checkout')) {
+            return;
+        }
+
+        if (!\is_checkout() && !is_page('checkout')) {
             return;
         }
 

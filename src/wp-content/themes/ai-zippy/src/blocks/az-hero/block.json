@@ -1,0 +1,66 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "ai-zippy/az-hero",
+	"version": "1.0.0",
+	"title": "AZ: Hero Section",
+	"category": "ai-zippy",
+	"icon": "cover-image",
+	"description": "Le Rouge Hero Section with split text/image layout.",
+	"supports": {
+		"html": false,
+		"anchor": true,
+		"align": ["wide", "full"]
+	},
+	"attributes": {
+		"align": {
+			"type": "string",
+			"default": "full"
+		},
+		"eyebrow": {
+			"type": "string",
+			"default": "Est. Singapore · Fine Wine & Spirits"
+		},
+		"title": {
+			"type": "string",
+			"default": "Where Every Bottle Tells a Story"
+		},
+		"subtitle": {
+			"type": "string",
+			"default": "Curated fine wines and premium spirits, thoughtfully selected for those who appreciate the extraordinary."
+		},
+		"primaryBtnText": {
+			"type": "string",
+			"default": "Explore Collection"
+		},
+		"primaryBtnUrl": {
+			"type": "string",
+			"default": "#"
+		},
+		"ghostBtnText": {
+			"type": "string",
+			"default": "Our Story"
+		},
+		"ghostBtnUrl": {
+			"type": "string",
+			"default": "#"
+		},
+		"imageUrl": {
+			"type": "string",
+			"default": "https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?w=1400&q=85&fit=crop"
+		},
+		"taglineSmall": {
+			"type": "string",
+			"default": "New Arrivals"
+		},
+		"taglineLarge": {
+			"type": "string",
+			"default": "Spring Drop 2025"
+		}
+	},
+	"textdomain": "ai-zippy",
+	"editorScript": "file:./index.js",
+	"editorStyle": "file:./index.css",
+	"style": "file:./style-index.css",
+	"render": "file:./render.php"
+}
