@@ -104,6 +104,14 @@
   }
 
   .wp-block-navigation {
+    .wp-block-navigation__container {
+      display: flex;
+      gap: 32px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
     .wp-block-navigation-item__label {
       font-family: "Montserrat", sans-serif;
       font-size: 10px;

@@ -1,9 +1,9 @@
 // Shop Filter React App Styles
 
-$sf-primary: var(--wp--preset--color--primary, #1a1a1a);
-$sf-accent: var(--wp--preset--color--accent, #c8a97e);
-$sf-bg: var(--wp--preset--color--secondary, #f5f5f5);
-$sf-border: #e5e5e5;
+$sf-primary: #8b1c3f; // Crimson
+$sf-accent: #b8964a;  // Gold
+$sf-bg: #f8f5f0;      // Light beige/off-white from mockup
+$sf-border: rgba(26, 10, 13, 0.08);
 $sf-radius: 8px;
 $sf-transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 
@@ -366,7 +366,7 @@ $sf-transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 	}
 
 	input {
-		accent-color: #333;
+		accent-color: $sf-primary;
 		cursor: pointer;
 	}
 }
@@ -422,8 +422,10 @@ $sf-transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 	&::-webkit-inner-spin-button,
 	&::-webkit-outer-spin-button {
 		-webkit-appearance: none;
+		margin: 0;
 	}
 	-moz-appearance: textfield;
+	appearance: textfield;
 }
 
 .sf__price-sep {
@@ -432,7 +434,7 @@ $sf-transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 
 .sf__price-slider {
 	width: 100%;
-	accent-color: #333;
+	accent-color: $sf-primary;
 }
 
 // ---- ACTIVE FILTERS ----
@@ -564,7 +566,7 @@ $sf-transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 	z-index: 2;
 
 	&--sale {
-		background: #ff6b00;
+		background: $sf-accent;
 		color: #fff;
 	}
 	&--oos {
@@ -594,7 +596,7 @@ $sf-transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 
 	&:hover,
 	&.is-active {
-		color: #ff6b00;
+		color: $sf-primary;
 	}
 
 	&.is-active {
@@ -666,7 +668,7 @@ $sf-transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 	font-size: 0.7rem;
 	text-transform: uppercase;
 	letter-spacing: 0.5px;
-	color: #ff6b00;
+	color: $sf-accent;
 	font-weight: 600;
 }
 
@@ -749,7 +751,7 @@ $sf-transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 	justify-content: center;
 	gap: 0.5rem;
 	padding: 0.65rem 1rem;
-	background: #1b2a4a;
+	background: $sf-primary;
 	color: #fff !important;
 	border: none;
 	border-radius: $sf-radius;
@@ -784,8 +786,8 @@ $sf-transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 
 	&:hover,
 	&.is-active {
-		color: #ff6b00;
-		border-color: #ff6b00;
+		color: $sf-primary;
+		border-color: $sf-primary;
 	}
 }
 

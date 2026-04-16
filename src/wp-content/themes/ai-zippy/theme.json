@@ -131,7 +131,7 @@
 			"lineHeight": "1.6"
 		},
 		"spacing": {
-			"blockGap": "1.5rem"
+			"blockGap": "0"
 		}
 	},
 	"templateParts": [

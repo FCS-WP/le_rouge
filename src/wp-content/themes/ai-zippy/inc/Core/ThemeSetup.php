@@ -16,10 +16,12 @@ class ThemeSetup
     {
         add_action('after_setup_theme', [self::class, 'setup']);
         add_action('init', [self::class, 'registerBlocks']);
+        add_action('init', [self::class, 'registerPatternCategories']);
         add_filter('block_categories_all', [self::class, 'blockCategories']);
         add_action('wp_enqueue_scripts', 'wp_enqueue_global_styles', 1);
         add_action('wp_enqueue_scripts', [self::class, 'enqueueFonts']);
         add_action('enqueue_block_editor_assets', [self::class, 'enqueueFonts']);
+        add_filter('get_the_archive_title', [self::class, 'cleanupArchiveTitle']);
     }
 
     /**
@@ -78,5 +80,34 @@ class ThemeSetup
         ]);
 
         return $categories;
+    }
+
+    /**
+     * Register custom pattern categories.
+     */
+    public static function registerPatternCategories(): void
+    {
+        register_block_pattern_category('ai-zippy', [
+            'label' => __('AI Zippy', 'ai-zippy'),
+        ]);
+    }
+    /**
+     * Remove "Archive:" prefix from titles.
+     */
+    public static function cleanupArchiveTitle(string $title): string
+    {
+        if (is_shop()) {
+            return __('Our Collection', 'ai-zippy');
+        }
+
+        if (is_category() || is_tax()) {
+            return single_term_title('', false);
+        }
+
+        if (is_post_type_archive()) {
+            return post_type_archive_title('', false);
+        }
+
+        return $title;
     }
 }

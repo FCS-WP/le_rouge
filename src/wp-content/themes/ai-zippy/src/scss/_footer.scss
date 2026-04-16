@@ -10,7 +10,8 @@
     max-width: 1280px;
     margin: 0 auto;
     padding: 0 48px 60px;
-    display: flex;
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
     gap: 60px;
   }
 
@@ -20,6 +21,25 @@
     line-height: 2;
     margin-bottom: 24px;
     max-width: 260px;
+  }
+
+  .footer-contact-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    margin-bottom: 12px;
+  }
+
+  .footer-contact-icon {
+    color: var(--wp--preset--color--gold);
+    font-size: 10px;
+    margin-top: 1px;
+  }
+
+  .footer-contact-text {
+    font-size: 11px;
+    color: var(--wp--preset--color--dim);
+    line-height: 1.7;
   }
 
   .footer-col-title {
@@ -58,5 +78,26 @@
     font-size: 10px;
     color: var(--wp--preset--color--muted);
     letter-spacing: 0.5px;
+  }
+
+  @media (max-width: 991px) {
+    .footer-inner {
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+    }
+  }
+
+  @media (max-width: 575px) {
+    .footer-inner {
+      grid-template-columns: 1fr;
+      gap: 40px;
+      padding: 0 24px 48px;
+    }
+
+    .footer-bottom {
+      flex-direction: column;
+      gap: 12px;
+      text-align: center;
+    }
   }
 }

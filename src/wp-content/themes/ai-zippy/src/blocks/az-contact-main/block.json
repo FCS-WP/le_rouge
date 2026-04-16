@@ -1,0 +1,23 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "ai-zippy/az-contact-main",
+	"version": "1.0.0",
+	"title": "AZ: Contact Locations & Form",
+	"category": "ai-zippy",
+	"icon": "columns",
+	"description": "Side-by-side locations and contact form.",
+	"supports": {
+		"html": false,
+		"anchor": true,
+		"align": ["full"]
+	},
+	"attributes": {
+		"align": { "type": "string", "default": "full" },
+		"formTitle": { "type": "string", "default": "Get in Touch" },
+		"formSubtitle": { "type": "string", "default": "For enquiries, bulk orders, concierge services or just a recommendation — we're here to help." }
+	},
+	"textdomain": "ai-zippy",
+	"editorScript": "file:./index.js",
+	"render": "file:./render.php"
+}

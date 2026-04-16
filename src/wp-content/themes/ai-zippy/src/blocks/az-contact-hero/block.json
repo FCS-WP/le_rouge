@@ -1,0 +1,24 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "ai-zippy/az-contact-hero",
+	"version": "1.0.0",
+	"title": "AZ: Contact Hero",
+	"category": "ai-zippy",
+	"icon": "cover-image",
+	"description": "Hero section for Contact page.",
+	"supports": {
+		"html": false,
+		"anchor": true,
+		"align": ["full"]
+	},
+	"attributes": {
+		"align": { "type": "string", "default": "full" },
+		"eyebrow": { "type": "string", "default": "Le Rouge Singapore" },
+		"title": { "type": "string", "default": "Find Us" },
+		"subtitle": { "type": "string", "default": "Two boutiques in the heart of Singapore's CBD" }
+	},
+	"textdomain": "ai-zippy",
+	"editorScript": "file:./index.js",
+	"render": "file:./render.php"
+}

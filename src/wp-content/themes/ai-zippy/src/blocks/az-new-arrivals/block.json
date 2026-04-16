@@ -1,0 +1,39 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "ai-zippy/az-new-arrivals",
+	"version": "1.0.0",
+	"title": "AZ: New Arrivals",
+	"category": "ai-zippy",
+	"icon": "star-filled",
+	"description": "Display latest products from the New Arrivals category.",
+	"supports": {
+		"html": false,
+		"anchor": true,
+		"align": ["wide", "full"]
+	},
+	"attributes": {
+		"align": {
+			"type": "string",
+			"default": "full"
+		},
+		"eyebrow": { "type": "string", "default": "Shop Our Finest" },
+		"title": { "type": "string", "default": "New Arrivals" },
+		"viewAllText": { "type": "string", "default": "View All →" },
+		"viewAllUrl": { "type": "string", "default": "#" },
+		"limit": { "type": "number", "default": 4 },
+		"category": { "type": "string", "default": "new-arrivals" },
+		"orderby": {
+			"type": "string",
+			"default": "date"
+		},
+		"order": {
+			"type": "string",
+			"default": "DESC"
+		}
+	},
+	"textdomain": "ai-zippy",
+	"editorScript": "file:./index.js",
+	"style": "file:./style-index.css",
+	"render": "file:./render.php"
+}
