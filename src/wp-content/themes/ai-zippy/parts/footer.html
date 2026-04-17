@@ -1,59 +1,94 @@
-<!-- wp:group {"tagName":"footer","metadata":{"name":"Site Footer"},"style":{"spacing":{"padding":{"top":"4rem","bottom":"2rem","left":"2rem","right":"2rem"}}},"backgroundColor":"primary","textColor":"white","layout":{"type":"constrained","contentSize":"1200px"}} -->
-<footer class="wp-block-group has-primary-background-color has-white-color has-text-color has-background" style="padding-top:4rem;padding-right:2rem;padding-bottom:2rem;padding-left:2rem">
+<!-- wp:group {"tagName":"footer","metadata":{"name":"Site Footer"},"className":"site-footer","layout":{"type":"constrained","contentSize":"100%"}} -->
+<footer class="wp-block-group site-footer">
+	<!-- wp:group {"className":"footer-inner","layout":{"type":"constrained"}} -->
+	<div class="wp-block-group footer-inner">
+		<!-- wp:group -->
+		<div class="wp-block-group">
+			<!-- wp:site-logo {"width":120} /-->
+			<!-- wp:paragraph {"className":"footer-desc"} -->
+			<p class="footer-desc">Singapore's premier boutique for fine wine and premium spirits. Expertly curated for the discerning palate.</p>
+			<!-- /wp:paragraph -->
 
-	<!-- wp:columns {"style":{"spacing":{"blockGap":{"left":"3rem"},"margin":{"bottom":"3rem"}}}} -->
-	<div class="wp-block-columns" style="margin-bottom:3rem">
+			<!-- wp:group {"className":"footer-contact-item"} -->
+			<div class="wp-block-group footer-contact-item">
+				<span class="footer-contact-icon">◇</span>
+				<span class="footer-contact-text">Raffles Place: +65 6532 7992</span>
+			</div>
+			<!-- /wp:group -->
 
-		<!-- wp:column -->
-		<div class="wp-block-column">
-			<!-- wp:site-title {"level":3,"style":{"typography":{"fontStyle":"normal","fontWeight":"700","textDecoration":"none"}},"textColor":"white","fontSize":"large"} /-->
-			<!-- wp:paragraph {"style":{"typography":{"lineHeight":"1.8"}},"textColor":"white","fontSize":"small"} -->
-			<p class="has-white-color has-text-color has-small-font-size" style="line-height:1.8">Discover the perfect blend of taste and ambiance. Your neighborhood cafe since 2024.</p>
+			<!-- wp:group {"className":"footer-contact-item"} -->
+			<div class="wp-block-group footer-contact-item">
+				<span class="footer-contact-icon">◇</span>
+				<span class="footer-contact-text">Marina Bay Link Mall: +65 6509 1871</span>
+			</div>
+			<!-- /wp:group -->
+
+			<!-- wp:group {"className":"footer-contact-item"} -->
+			<div class="wp-block-group footer-contact-item">
+				<span class="footer-contact-icon">◇</span>
+				<span class="footer-contact-text">Republic Plaza: +65 6226 1944</span>
+			</div>
+			<!-- /wp:group -->
+		</div>
+		<!-- /wp:group -->
+
+		<!-- wp:group {"className":"footer-col"} -->
+		<div class="wp-block-group footer-col">
+			<!-- wp:heading {"level":4,"className":"footer-col-title"} -->
+			<h4 class="footer-col-title">Shop</h4>
+			<!-- /wp:heading -->
+			<!-- wp:paragraph -->
+			<p>
+				<a href="/product-category/red-wine">Red Wine</a><br />
+				<a href="/product-category/white-wine">White Wine</a><br />
+				<a href="/product-category/spirits">Spirits</a><br />
+				<a href="/product-category/chocolates">Chocolates</a>
+			</p>
 			<!-- /wp:paragraph -->
 		</div>
-		<!-- /wp:column -->
+		<!-- /wp:group -->
 
-		<!-- wp:column -->
-		<div class="wp-block-column">
-			<!-- wp:heading {"level":3,"style":{"typography":{"fontStyle":"normal","fontWeight":"600"},"spacing":{"margin":{"bottom":"1rem"}}},"textColor":"white","fontSize":"medium"} -->
-			<h3 class="wp-block-heading has-white-color has-text-color has-medium-font-size" style="margin-bottom:1rem;font-style:normal;font-weight:600">Quick Links</h3>
+		<!-- wp:group {"className":"footer-col"} -->
+		<div class="wp-block-group footer-col">
+			<!-- wp:heading {"level":4,"className":"footer-col-title"} -->
+			<h4 class="footer-col-title">Company</h4>
 			<!-- /wp:heading -->
-			<!-- wp:navigation {"textColor":"white","overlayMenu":"never","layout":{"type":"flex","orientation":"vertical"},"fontSize":"small","style":{"spacing":{"blockGap":"0.5rem"}}} /-->
-		</div>
-		<!-- /wp:column -->
-
-		<!-- wp:column -->
-		<div class="wp-block-column">
-			<!-- wp:heading {"level":3,"style":{"typography":{"fontStyle":"normal","fontWeight":"600"},"spacing":{"margin":{"bottom":"1rem"}}},"textColor":"white","fontSize":"medium"} -->
-			<h3 class="wp-block-heading has-white-color has-text-color has-medium-font-size" style="margin-bottom:1rem;font-style:normal;font-weight:600">Opening Hours</h3>
-			<!-- /wp:heading -->
-			<!-- wp:paragraph {"style":{"typography":{"lineHeight":"2"}},"textColor":"white","fontSize":"small"} -->
-			<p class="has-white-color has-text-color has-small-font-size" style="line-height:2">Mon - Fri: 7:00 AM - 9:00 PM<br>Sat - Sun: 8:00 AM - 10:00 PM</p>
+			<!-- wp:paragraph -->
+			<p>
+				<a href="/about">About Us</a><br />
+				<a href="/contact">Contact Us</a><br />
+				<a href="#">Bulk Orders</a><br />
+				<a href="#">Concierge Service</a>
+			</p>
 			<!-- /wp:paragraph -->
 		</div>
-		<!-- /wp:column -->
+		<!-- /wp:group -->
 
-		<!-- wp:column -->
-		<div class="wp-block-column">
-			<!-- wp:heading {"level":3,"style":{"typography":{"fontStyle":"normal","fontWeight":"600"},"spacing":{"margin":{"bottom":"1rem"}}},"textColor":"white","fontSize":"medium"} -->
-			<h3 class="wp-block-heading has-white-color has-text-color has-medium-font-size" style="margin-bottom:1rem;font-style:normal;font-weight:600">Contact</h3>
+		<!-- wp:group {"className":"footer-col"} -->
+		<div class="wp-block-group footer-col">
+			<!-- wp:heading {"level":4,"className":"footer-col-title"} -->
+			<h4 class="footer-col-title">Follow Us</h4>
 			<!-- /wp:heading -->
-			<!-- wp:paragraph {"style":{"typography":{"lineHeight":"2"}},"textColor":"white","fontSize":"small"} -->
-			<p class="has-white-color has-text-color has-small-font-size" style="line-height:2">123 Coffee Street<br>Singapore 123456<br>+65 1234 5678<br>hello@aizippy.sg</p>
+			<!-- wp:paragraph -->
+			<p>
+				<a href="#">Instagram</a><br />
+				<a href="#">Facebook</a>
+			</p>
 			<!-- /wp:paragraph -->
 		</div>
-		<!-- /wp:column -->
-
+		<!-- /wp:group -->
 	</div>
-	<!-- /wp:columns -->
+	<!-- /wp:group -->
 
-	<!-- wp:separator {"style":{"color":{"background":"#ffffff33"}},"className":"is-style-wide"} -->
-	<hr class="wp-block-separator has-text-color has-alpha-channel-opacity has-background is-style-wide" style="background-color:#ffffff33;color:#ffffff33"/>
-	<!-- /wp:separator -->
-
-	<!-- wp:paragraph {"align":"center","style":{"spacing":{"margin":{"top":"1.5rem"}}},"textColor":"white","fontSize":"small"} -->
-	<p class="has-text-align-center has-white-color has-text-color has-small-font-size" style="margin-top:1.5rem">&copy; 2026 AI Zippy. All rights reserved. Powered by Zippy.</p>
-	<!-- /wp:paragraph -->
-
+	<!-- wp:group {"className":"footer-bottom","layout":{"type":"flex","justifyContent":"space-between"}} -->
+	<div class="wp-block-group footer-bottom">
+		<!-- wp:paragraph {"className":"footer-copy"} -->
+		<p class="footer-copy">© 2025 Le Rouge Singapore · All Rights Reserved</p>
+		<!-- /wp:paragraph -->
+		<!-- wp:paragraph {"className":"footer-copy"} -->
+		<p class="footer-copy">lerougesg.com</p>
+		<!-- /wp:paragraph -->
+	</div>
+	<!-- /wp:group -->
 </footer>
 <!-- /wp:group -->

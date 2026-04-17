@@ -9,29 +9,38 @@
 
 // ---- COLORS (mapped from theme.json) ----
 // Usage: color: $c-primary; or color: var(--wp--preset--color--primary);
-$c-primary:   var(--wp--preset--color--primary);    // #1a1a1a
-$c-secondary: var(--wp--preset--color--secondary);   // #f5f5f5
-$c-accent:    var(--wp--preset--color--accent);      // #c8a97e
-$c-white:     var(--wp--preset--color--white);       // #ffffff
-$c-black:     var(--wp--preset--color--black);       // #000000
-$c-navy:      var(--wp--preset--color--navy);        // #1b2a4a
-$c-orange:    var(--wp--preset--color--orange);      // #ff6b00
-$c-danger:    var(--wp--preset--color--danger);      // #e53935
-$c-success:   var(--wp--preset--color--success);     // #4caf50
-$c-info:      var(--wp--preset--color--info);        // #2196f3
-$c-border:    var(--wp--preset--color--border);      // #e5e5e5
-$c-muted:     var(--wp--preset--color--muted);       // #999999
+$c-primary: var(--wp--preset--color--primary);
+$c-crimson: var(--wp--preset--color--crimson);
+$c-crimson-mid: var(--wp--preset--color--crimson-mid);
+$c-gold: var(--wp--preset--color--gold);
+$c-bg-light: var(--wp--preset--color--bg-light);
+$c-bg-cream: var(--wp--preset--color--bg-cream);
+$c-white: var(--wp--preset--color--white);
+$c-black: var(--wp--preset--color--black);
+$c-border: var(--wp--preset--color--border);
+$c-border-light: var(--wp--preset--color--border-light);
+$c-muted: var(--wp--preset--color--muted);
+
+// Alias for convenience
+$c-accent: $c-crimson;
+$c-secondary: $c-bg-cream;
+$c-danger: $c-crimson;
+
+// Status colors (fallback since not in theme.json)
+$c-success: #4caf50;
+$c-info: #2196f3;
+$c-warning: #ffb74d;
 
 // ---- BREAKPOINTS (synced with theme.json custom.breakpoint) ----
-$bp-sm:  480px;
-$bp-md:  768px;
-$bp-lg:  1024px;
-$bp-xl:  1200px;
+$bp-sm: 480px;
+$bp-md: 768px;
+$bp-lg: 1024px;
+$bp-xl: 1200px;
 $bp-xxl: 1400px;
 
 // ---- LAYOUT ----
 $content-width: 1200px;
-$wide-width:    1400px;
+$wide-width: 1400px;
 
 // ---- DESIGN TOKENS ----
 $transition-speed: 0.3s;
@@ -46,25 +55,65 @@ $box-shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.1);
 // Desktop-first: @include until(md) { ... }
 
 @mixin from($bp) {
-  @if $bp == sm  { @media (min-width: $bp-sm)  { @content; } }
-  @else if $bp == md  { @media (min-width: $bp-md)  { @content; } }
-  @else if $bp == lg  { @media (min-width: $bp-lg)  { @content; } }
-  @else if $bp == xl  { @media (min-width: $bp-xl)  { @content; } }
-  @else if $bp == xxl { @media (min-width: $bp-xxl) { @content; } }
-  @else { @media (min-width: $bp) { @content; } }
+  @if $bp == sm {
+    @media (min-width: $bp-sm) {
+      @content;
+    }
+  } @else if $bp == md {
+    @media (min-width: $bp-md) {
+      @content;
+    }
+  } @else if $bp == lg {
+    @media (min-width: $bp-lg) {
+      @content;
+    }
+  } @else if $bp == xl {
+    @media (min-width: $bp-xl) {
+      @content;
+    }
+  } @else if $bp == xxl {
+    @media (min-width: $bp-xxl) {
+      @content;
+    }
+  } @else {
+    @media (min-width: $bp) {
+      @content;
+    }
+  }
 }
 
 @mixin until($bp) {
-  @if $bp == sm  { @media (max-width: ($bp-sm - 1px))  { @content; } }
-  @else if $bp == md  { @media (max-width: ($bp-md - 1px))  { @content; } }
-  @else if $bp == lg  { @media (max-width: ($bp-lg - 1px))  { @content; } }
-  @else if $bp == xl  { @media (max-width: ($bp-xl - 1px))  { @content; } }
-  @else if $bp == xxl { @media (max-width: ($bp-xxl - 1px)) { @content; } }
-  @else { @media (max-width: $bp) { @content; } }
+  @if $bp == sm {
+    @media (max-width: ($bp-sm - 1px)) {
+      @content;
+    }
+  } @else if $bp == md {
+    @media (max-width: ($bp-md - 1px)) {
+      @content;
+    }
+  } @else if $bp == lg {
+    @media (max-width: ($bp-lg - 1px)) {
+      @content;
+    }
+  } @else if $bp == xl {
+    @media (max-width: ($bp-xl - 1px)) {
+      @content;
+    }
+  } @else if $bp == xxl {
+    @media (max-width: ($bp-xxl - 1px)) {
+      @content;
+    }
+  } @else {
+    @media (max-width: $bp) {
+      @content;
+    }
+  }
 }
 
 @mixin between($lower, $upper) {
-  @media (min-width: $lower) and (max-width: ($upper - 1px)) { @content; }
+  @media (min-width: $lower) and (max-width: ($upper - 1px)) {
+    @content;
+  }
 }
 
 // ---- UTILITY MIXINS ----

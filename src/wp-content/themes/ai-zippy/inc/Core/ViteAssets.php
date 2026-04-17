@@ -18,6 +18,7 @@ class ViteAssets
     {
         add_action('wp_enqueue_scripts', [self::class, 'enqueueTheme']);
         add_filter('script_loader_tag', [self::class, 'addModuleType'], 10, 2);
+        add_action('after_setup_theme', [self::class, 'enqueueEditor']);
     }
 
     /**
@@ -125,5 +126,24 @@ class ViteAssets
                 );
             }
         }
+    }
+
+    /**
+     * Load the theme CSS into the Gutenberg editor using add_editor_style.
+     */
+    public static function enqueueEditor(): void
+    {
+        $manifest = self::getManifest();
+        $entry = 'src/wp-content/themes/ai-zippy/src/scss/style.scss';
+
+        if (empty($manifest[$entry]['file'])) {
+            return;
+        }
+
+        // Vite CSS filename
+        $css_file = $manifest[$entry]['file'];
+
+        // Path relative to theme root for add_editor_style
+        add_editor_style('assets/dist/' . $css_file);
     }
 }

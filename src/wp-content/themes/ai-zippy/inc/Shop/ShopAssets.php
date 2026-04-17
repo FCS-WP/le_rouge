@@ -22,7 +22,11 @@ class ShopAssets
      */
     public static function enqueue(): void
     {
-        if (!is_shop() && !is_product_taxonomy()) {
+        if (!function_exists('is_shop')) {
+            return;
+        }
+
+        if (!\is_shop() && !is_product_taxonomy()) {
             return;
         }
 

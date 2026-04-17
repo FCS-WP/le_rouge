@@ -1,0 +1,39 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "ai-zippy/az-community",
+	"version": "1.0.0",
+	"title": "AZ: Community Section",
+	"category": "ai-zippy",
+	"icon": "share",
+	"description": "Instagram/Social feed section with grid.",
+	"supports": {
+		"html": false,
+		"anchor": true,
+		"align": ["wide", "full"]
+	},
+	"attributes": {
+		"align": {
+			"type": "string",
+			"default": "full"
+		},
+		"eyebrow": { "type": "string", "default": "Community" },
+		"title": { "type": "string", "default": "Share the Experience" },
+		"subtitle": { "type": "string", "default": "Follow us on Instagram @lerougesg and tag your pours." },
+		"btnText": { "type": "string", "default": "Follow @lerougesg" },
+		"btnUrl": { "type": "string", "default": "#" },
+		"images": {
+			"type": "array",
+			"default": [
+				{ "url": "https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?w=400&h=400&q=80&fit=crop", "label": "@lerougesg" },
+				{ "url": "https://images.unsplash.com/photo-1506377247377-2a5b3b417ebb?w=400&h=400&q=80&fit=crop", "label": "@lerougesg" },
+				{ "url": "https://images.unsplash.com/photo-1528823872057-9c018a7a7553?w=400&h=400&q=80&fit=crop", "label": "@lerougesg" },
+				{ "url": "https://images.unsplash.com/photo-1569529465841-dfecdab7503b?w=400&h=400&q=80&fit=crop", "label": "@lerougesg" }
+			]
+		}
+	},
+	"textdomain": "ai-zippy",
+	"editorScript": "file:./index.js",
+	"style": "file:./style-index.css",
+	"render": "file:./render.php"
+}

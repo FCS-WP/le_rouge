@@ -28,13 +28,13 @@ class OrderConfirmationShortcode
      */
     public static function bufferThankyou(): void
     {
-        if (!is_wc_endpoint_url('order-received')) {
+        if (!function_exists('is_wc_endpoint_url') || !\is_wc_endpoint_url('order-received')) {
             return;
         }
 
         global $wp;
         $order_id = isset($wp->query_vars['order-received']) ? absint($wp->query_vars['order-received']) : 0;
-        $order = $order_id ? wc_get_order($order_id) : false;
+        $order = ($order_id && function_exists('wc_get_order')) ? \wc_get_order($order_id) : false;
 
         if ($order && !empty($_GET['key'])) {
             $order_key = sanitize_text_field(wp_unslash($_GET['key']));
@@ -43,12 +43,14 @@ class OrderConfirmationShortcode
             }
         }
 
-        ob_start();
-        wc_get_template('checkout/thankyou.php', ['order' => $order]);
-        $html = ob_get_clean();
+        if (function_exists('wc_get_template')) {
+            ob_start();
+            \wc_get_template('checkout/thankyou.php', ['order' => $order]);
+            $html = ob_get_clean();
 
-        // Collapse whitespace between tags to prevent wpautop from injecting <p>/<br>
-        self::$bufferedHtml = preg_replace('/>\s+</', '><', $html);
+            // Collapse whitespace between tags to prevent wpautop from injecting <p>/<br>
+            self::$bufferedHtml = preg_replace('/>\s+</', '><', $html);
+        }
     }
 
     /**

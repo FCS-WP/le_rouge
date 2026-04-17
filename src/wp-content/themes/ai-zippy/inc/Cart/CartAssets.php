@@ -22,7 +22,11 @@ class CartAssets
      */
     public static function enqueue(): void
     {
-        if (!is_cart() && !is_page('cart')) {
+        if (!function_exists('is_cart')) {
+            return;
+        }
+
+        if (!\is_cart() && !is_page('cart')) {
             return;
         }
 

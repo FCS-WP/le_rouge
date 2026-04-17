@@ -251,12 +251,29 @@ class ThemeOptions
     }
 
     /**
-     * Render the CSS for the loading page in head.
      */
     public static function renderLoadingStyles(): void
     {
+        // Moved to renderLoadingPage for consistency.
+    }
+
+    /**
+     * Render the loading page HTML.
+     */
+    public static function renderLoadingPage(): void
+    {
         if (!self::isEnabled() || is_admin()) {
             return;
+        }
+
+        $logo_id = get_theme_mod('custom_logo');
+        $logo_url = '';
+        
+        if ($logo_id) {
+            $logo_data = wp_get_attachment_image_src($logo_id, 'full');
+            if ($logo_data) {
+                $logo_url = $logo_data[0];
+            }
         }
 
         ?>
@@ -283,65 +300,49 @@ class ThemeOptions
 
             .ai-zippy-loader-content {
                 text-align: center;
+                max-width: 90vw;
             }
 
             .ai-zippy-loader-logo {
                 margin-bottom: 30px;
-                max-width: 150px;
-                height: auto;
-                animation: pulse 2s infinite ease-in-out;
+                max-width: 120px !important;
+                max-height: 80px !important;
+                width: auto !important;
+                height: auto !important;
+                object-fit: contain !important;
+                animation: ai-zippy-pulse 2s infinite ease-in-out;
+                display: block;
+                margin-left: auto;
+                margin-right: auto;
             }
 
             .ai-zippy-spinner {
-                width: 40px;
-                height: 40px;
-                border: 3px solid rgba(0,0,0,0.1);
-                border-top: 3px solid var(--wp--preset--color--accent, #c8a97e);
+                width: 32px;
+                height: 32px;
+                border: 2px solid rgba(0,0,0,0.05);
+                border-top: 2px solid #c8a97e;
                 border-radius: 50%;
-                animation: spin 1s linear infinite;
+                animation: ai-zippy-spin 1s linear infinite;
                 margin: 0 auto;
             }
 
-            @keyframes spin {
+            @keyframes ai-zippy-spin {
                 0% { transform: rotate(0deg); }
                 100% { transform: rotate(360deg); }
             }
 
-            @keyframes pulse {
-                0% { transform: scale(0.95); opacity: 0.8; }
+            @keyframes ai-zippy-pulse {
+                0% { transform: scale(0.98); opacity: 0.85; }
                 50% { transform: scale(1); opacity: 1; }
-                100% { transform: scale(0.95); opacity: 0.8; }
+                100% { transform: scale(0.98); opacity: 0.85; }
             }
         </style>
-        <?php
-    }
-
-    /**
-     * Render the loading page HTML.
-     */
-    public static function renderLoadingPage(): void
-    {
-        if (!self::isEnabled() || is_admin()) {
-            return;
-        }
-
-        $logo_id = get_theme_mod('custom_logo');
-        $logo_url = '';
-        
-        if ($logo_id) {
-            $logo_data = wp_get_attachment_image_src($logo_id, 'full');
-            if ($logo_data) {
-                $logo_url = $logo_data[0];
-            }
-        }
-
-        ?>
         <div id="ai-zippy-loader">
             <div class="ai-zippy-loader-content">
                 <?php if ($logo_url) : ?>
                     <img src="<?php echo esc_url($logo_url); ?>" alt="<?php echo esc_attr(get_bloginfo('name')); ?>" class="ai-zippy-loader-logo">
                 <?php else : ?>
-                    <h1 class="ai-zippy-loader-logo" style="font-family: sans-serif; font-weight: 700;"><?php bloginfo('name'); ?></h1>
+                    <h1 class="ai-zippy-loader-logo" style="font-family: sans-serif; font-weight: 700; font-size: 24px; letter-spacing: 1px;"><?php bloginfo('name'); ?></h1>
                 <?php endif; ?>
                 <div class="ai-zippy-spinner"></div>
             </div>

@@ -1,0 +1,52 @@
+.brand-intro {
+  padding: 110px 0;
+  background: var(--bg);
+  margin: 0 !important;
+  max-width: none !important;
+
+  .bi-inner {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 48px;
+    display: grid;
+    grid-template-columns: 1fr 1.5fr;
+    gap: 80px;
+    align-items: center;
+  }
+
+  .bi-label {
+    margin-bottom: 20px;
+  }
+
+  .bi-heading {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 44px;
+    font-weight: 300;
+    line-height: 1.2;
+    color: var(--text-pri);
+  }
+
+  .bi-divider {
+    width: 48px;
+    height: 1px;
+    background: var(--crimson);
+    margin: 28px 0;
+  }
+
+  .bi-text {
+    font-size: 13px;
+    line-height: 2;
+    color: var(--text-muted);
+    margin-bottom: 18px;
+  }
+}
+
+@media (max-width: 768px) {
+  .brand-intro {
+    padding: 60px 0;
+    .bi-inner {
+      grid-template-columns: 1fr;
+      gap: 40px;
+    }
+  }
+}

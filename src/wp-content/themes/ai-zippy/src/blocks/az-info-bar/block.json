@@ -1,0 +1,35 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "ai-zippy/az-info-bar",
+	"version": "1.0.0",
+	"title": "AZ: Info Bar",
+	"category": "ai-zippy",
+	"icon": "info",
+	"description": "Horizontal info bar with icons and text.",
+	"supports": {
+		"html": false,
+		"anchor": true,
+		"align": ["wide", "full"]
+	},
+	"attributes": {
+		"align": {
+			"type": "string",
+			"default": "full"
+		},
+		"items": {
+			"type": "array",
+			"default": [
+				{ "icon": "◆", "title": "Wines", "text": "Reds, Whites, Rosé" },
+				{ "icon": "◆", "title": "Spirits", "text": "Whisky, Champagne" },
+				{ "icon": "◆", "title": "Chocolates", "text": "Artisan Pairings" },
+				{ "icon": "◆", "title": "Gifts", "text": "Curated Sets" },
+				{ "icon": "◆", "title": "3 Locations", "text": "Island-wide Delivery" }
+			]
+		}
+	},
+	"textdomain": "ai-zippy",
+	"editorScript": "file:./index.js",
+	"style": "file:./style-index.css",
+	"render": "file:./render.php"
+}

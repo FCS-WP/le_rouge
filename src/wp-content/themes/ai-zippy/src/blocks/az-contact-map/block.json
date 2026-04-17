@@ -1,0 +1,21 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "ai-zippy/az-contact-map",
+	"version": "1.0.0",
+	"title": "AZ: Contact Map",
+	"category": "ai-zippy",
+	"icon": "location-alt",
+	"description": "Full width Google Maps embed.",
+	"supports": {
+		"html": true,
+		"align": ["full"]
+	},
+	"attributes": {
+		"align": { "type": "string", "default": "full" },
+		"mapIframe": { "type": "string", "default": "" }
+	},
+	"textdomain": "ai-zippy",
+	"editorScript": "file:./index.js",
+	"render": "file:./render.php"
+}
