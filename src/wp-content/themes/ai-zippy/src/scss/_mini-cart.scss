@@ -1,6 +1,5 @@
 @use "variables" as *;
 
-// ---- MINI CART ICON (header) ----
 .wc-block-mini-cart__button {
   background: none !important;
   border: none !important;
@@ -8,7 +7,7 @@
   padding: 0.4rem;
   display: flex;
   align-items: center;
-  gap: 0.35rem;
+  position: relative; // For absolute badge placement
   transition: opacity $transition-speed;
 
   &:hover {
@@ -24,15 +23,25 @@
 .wc-block-mini-cart__badge {
   background: $c-accent !important;
   color: $c-white !important;
-  font-size: 0.6rem;
+  font-size: 10px;
   font-weight: 700;
-  min-width: 18px;
-  height: 18px;
-  border-radius: 100px;
+  min-width: 17px;
+  height: 17px;
+  border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 0 4px;
+  position: absolute;
+  top: 0;
+  right: -2px;
+  border: 1.5px solid $c-white; // Add border to make it pop
+  line-height: 1;
+  z-index: 2;
+
+  &:empty {
+    display: none !important;
+  }
 }
 
 .wc-block-mini-cart__amount {

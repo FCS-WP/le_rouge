@@ -74,6 +74,8 @@
           padding: 0;
           display: flex;
           align-items: center;
+          justify-content: center;
+          position: relative; // Needed for absolute badge
           color: var(--wp--preset--color--muted);
           transition: color 0.2s;
 
