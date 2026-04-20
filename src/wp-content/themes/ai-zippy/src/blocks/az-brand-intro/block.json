@@ -18,11 +18,11 @@
 			"default": "full"
 		},
 		"eyebrow": { "type": "string", "default": "Our Philosophy" },
-		"heading": { "type": "string", "default": "Crafted with Intention. Chosen with Care." },
+		"heading": { "type": "string", "default": "Crafted with Intention.<br>Chosen with Care." },
 		"btnText": { "type": "string", "default": "Visit Our Boutiques" },
 		"btnUrl": { "type": "string", "default": "#" },
-		"textLeft": { "type": "string", "default": "At Le Rouge, we believe the best bottles are the ones with a story worth sharing..." },
-		"textRight": { "type": "string", "default": "With two boutiques in the heart of Singapore's CBD..." }
+		"textLeft": { "type": "string", "default": "At Le Rouge, we believe the best bottles are the ones with a story worth sharing. Our team of seasoned sommeliers travels the world's finest wine regions — from the limestone plateaus of Burgundy to the sun-drenched valleys of Mendoza — to bring you selections that speak of terroir, craft, and character." },
+		"textRight": { "type": "string", "default": "With two boutiques in the heart of Singapore's CBD, we are your trusted guide through the world of fine wine and premium spirits. Whether you're seeking a quiet evening red, a celebratory champagne, or the perfect gift, Le Rouge has the answer." }
 	},
 	"textdomain": "ai-zippy",
 	"editorScript": "file:./index.js",

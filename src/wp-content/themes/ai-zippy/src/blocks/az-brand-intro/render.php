@@ -16,7 +16,7 @@ $wrapper_attributes = get_block_wrapper_attributes(['class' => 'brand-intro']);
 
 <section <?php echo $wrapper_attributes; ?>>
     <div class="bi-inner">
-        <div>
+        <div class="bi-left">
             <?php if ($eyebrow) : ?>
                 <p class="eyebrow bi-label"><?php echo wp_kses_post($eyebrow); ?></p>
             <?php endif; ?>
@@ -31,7 +31,7 @@ $wrapper_attributes = get_block_wrapper_attributes(['class' => 'brand-intro']);
                 <a href="<?php echo esc_url($btnUrl); ?>" class="btn-outline"><?php echo esc_html($btnText); ?></a>
             <?php endif; ?>
         </div>
-        <div>
+        <div class="bi-right">
             <?php if ($textLeft) : ?>
                 <p class="bi-text"><?php echo wp_kses_post($textLeft); ?></p>
             <?php endif; ?>

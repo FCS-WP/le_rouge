@@ -1,0 +1,41 @@
+.footer-info-col {
+  .footer-logo {
+    margin-bottom: 24px;
+    img {
+      display: block;
+    }
+  }
+
+  .footer-desc {
+    font-size: 12px;
+    color: var(--wp--preset--color--muted);
+    line-height: 2;
+    margin-bottom: 24px;
+    max-width: 260px;
+  }
+
+  .footer-contact-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    margin-bottom: 16px;
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  .footer-contact-icon {
+    color: var(--wp--preset--color--gold);
+    font-size: 10px;
+    margin-top: 1px;
+  }
+
+  .footer-contact-text {
+    font-size: 11px;
+    color: var(--wp--preset--color--dim);
+    line-height: 1.7;
+    strong {
+      color: var(--wp--preset--color--primary);
+    }
+  }
+}
