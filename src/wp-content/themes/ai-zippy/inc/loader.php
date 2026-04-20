@@ -49,6 +49,7 @@ AiZippy\Core\ThemeOptions::register();
 
 // Hooks
 AiZippy\Hooks\CacheInvalidation::register();
+AiZippy\Hooks\AgeGate::register();
 
 // API
 add_action('rest_api_init', [AiZippy\Api\ProductFilterApi::class, 'register']);

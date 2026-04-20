@@ -16,10 +16,14 @@
 
   .bi-label {
     margin-bottom: 20px;
+    color: var(--crimson);
+    letter-spacing: 4px;
+    font-size: 10px;
+    text-transform: uppercase;
   }
 
   .bi-heading {
-    font-family: 'Cormorant Garamond', serif;
+    font-family: "Cormorant Garamond", serif;
     font-size: 44px;
     font-weight: 300;
     line-height: 1.2;
@@ -38,6 +42,26 @@
     line-height: 2;
     color: var(--text-muted);
     margin-bottom: 18px;
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  .btn-outline {
+    border: 0.5px solid var(--crimson);
+    color: var(--crimson) !important;
+    letter-spacing: 3px;
+    padding: 13px 36px;
+    font-size: 10px;
+    text-transform: uppercase;
+    display: inline-block;
+    text-decoration: none;
+    transition: all 0.3s ease;
+
+    &:hover {
+      background: var(--crimson);
+      color: #fff !important;
+    }
   }
 }
 
@@ -47,6 +71,9 @@
     .bi-inner {
       grid-template-columns: 1fr;
       gap: 40px;
+    }
+    .bi-heading {
+      font-size: 32px;
     }
   }
 }

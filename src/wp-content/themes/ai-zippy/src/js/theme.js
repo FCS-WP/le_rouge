@@ -11,10 +11,12 @@ import { initHeader } from "./modules/header.js";
 import { initShopViewToggle } from "./modules/shop-view-toggle.js";
 import { initAddToCart } from "./modules/add-to-cart.js";
 import { initContact } from "./modules/contact.js";
+import { initAgeGate } from "./modules/age-gate.js";
 
 document.addEventListener("DOMContentLoaded", () => {
-	initHeader();
-	initShopViewToggle();
-	initAddToCart();
-	initContact();
+  initHeader();
+  initShopViewToggle();
+  initAddToCart();
+  initContact();
+  initAgeGate();
 });
