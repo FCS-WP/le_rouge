@@ -129,13 +129,6 @@ if ( ! $checkout->is_registration_enabled() && $checkout->is_registration_requir
 							</div>
 							<?php endforeach; ?>
 
-							<?php if ( WC()->cart->needs_shipping() && WC()->cart->show_shipping() ) : ?>
-							<div class="az-checkout__totals-row">
-								<span><?php esc_html_e( 'Shipping', 'ai-zippy' ); ?></span>
-								<span><?php wc_cart_totals_shipping_html(); ?></span>
-							</div>
-							<?php endif; ?>
-
 							<?php foreach ( WC()->cart->get_fees() as $fee ) : ?>
 							<?php
 							$promotion_scope_note = (
@@ -156,6 +149,13 @@ if ( ! $checkout->is_registration_enabled() && $checkout->is_registration_requir
 								<span><?php wc_cart_totals_fee_html( $fee ); ?></span>
 							</div>
 							<?php endforeach; ?>
+
+							<?php if ( WC()->cart->needs_shipping() && WC()->cart->show_shipping() ) : ?>
+							<div class="az-checkout__totals-row">
+								<span><?php esc_html_e( 'Shipping', 'ai-zippy' ); ?></span>
+								<span><?php wc_cart_totals_shipping_html(); ?></span>
+							</div>
+							<?php endif; ?>
 
 							<?php if ( wc_tax_enabled() && ! WC()->cart->display_prices_including_tax() ) : ?>
 							<div class="az-checkout__totals-row">

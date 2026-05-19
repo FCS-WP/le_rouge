@@ -2,6 +2,7 @@
 
 namespace AiZippy\Hooks;
 
+use AiZippy\Core\Cache;
 use AiZippy\Core\ViteAssets;
 
 defined('ABSPATH') || exit;
@@ -268,6 +269,7 @@ class Promotions
         $settings = self::sanitizeSettings(is_array($raw_settings) ? $raw_settings : []);
 
         update_option(self::OPTION_NAME, $settings);
+        Cache::clearProductCaches();
 
         wp_safe_redirect(add_query_arg(
             'settings-updated',

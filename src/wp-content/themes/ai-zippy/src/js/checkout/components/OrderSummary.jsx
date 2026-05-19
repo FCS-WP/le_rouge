@@ -117,13 +117,6 @@ export default function OrderSummary({
 					<span>{formatPrice(totals.total_items, currency)}</span>
 				</div>
 
-				{parseInt(totals.total_shipping, 10) > 0 && (
-					<div className="zk__totals-row">
-						<span>Shipping</span>
-						<span>{formatPrice(totals.total_shipping, currency)}</span>
-					</div>
-				)}
-
 				{fees?.map((fee) => {
 					const feeTotal = parseInt(fee.totals?.total || "0", 10);
 					const isDiscount = feeTotal < 0;
@@ -152,6 +145,13 @@ export default function OrderSummary({
 						</div>
 					);
 				})}
+
+				{parseInt(totals.total_shipping, 10) > 0 && (
+					<div className="zk__totals-row">
+						<span>Shipping</span>
+						<span>{formatPrice(totals.total_shipping, currency)}</span>
+					</div>
+				)}
 
 				{parseInt(totals.total_tax, 10) > 0 && (
 					<div className="zk__totals-row">

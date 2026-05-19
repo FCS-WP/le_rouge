@@ -17,6 +17,11 @@ export default function FilterPanel({
 		: [];
 
 	const selectedAttributes = parseAttributes(filters.attributes);
+	const promotions = options.promotions || {};
+	const promotionCategories = promotions.categories || [];
+	const promotionRules = promotions.rules || [];
+	const showPromotionNotice =
+		promotionCategories.length > 0 && promotionRules.length > 0;
 
 	const panelClass = [
 		"sf__filters",
@@ -94,6 +99,13 @@ export default function FilterPanel({
 						onChange={onStockChange}
 					/>
 				</FilterSection>
+
+				{showPromotionNotice && (
+					<PromotionNotice
+						categories={promotionCategories}
+						rules={promotionRules}
+					/>
+				)}
 			</aside>
 		</>
 	);
@@ -300,6 +312,42 @@ function StockFilter({ current, onChange }) {
 			))}
 		</div>
 	);
+}
+
+function PromotionNotice({ categories, rules }) {
+	return (
+		<div className="sf__promotion-notice">
+			<span className="sf__promotion-label">Promotion categories</span>
+			<span className="sf__promotion-categories">
+				{categories.map((category) => category.name).join(", ")}
+			</span>
+			<ul className="sf__promotion-rules">
+				{rules.map((rule) => (
+					<li key={`${rule.quantity}-${rule.discount}`}>
+						<span>
+							{rule.quantity} {rule.quantity === 1 ? "product" : "products"}
+						</span>
+						<span className="sf__promotion-arrow">-&gt;</span>
+						<span className="sf__promotion-discount">
+							{formatPercent(rule.discount)}%
+						</span>
+					</li>
+				))}
+			</ul>
+		</div>
+	);
+}
+
+function formatPercent(value) {
+	const number = Number(value);
+
+	if (!Number.isFinite(number)) {
+		return value;
+	}
+
+	return Number.isInteger(number)
+		? String(number)
+		: number.toFixed(2).replace(/\.?0+$/, "");
 }
 
 function parseAttributes(str) {
