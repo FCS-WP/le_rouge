@@ -168,6 +168,17 @@ if ( ! $checkout->is_registration_enabled() && $checkout->is_registration_requir
 								<span><?php esc_html_e( 'Total', 'ai-zippy' ); ?></span>
 								<span><?php wc_cart_totals_order_total_html(); ?></span>
 							</div>
+
+							<?php
+							$free_shipping_notice = class_exists( '\AiZippy\Hooks\FreeShippingRates' )
+								? \AiZippy\Hooks\FreeShippingRates::getNoticeText()
+								: '';
+							?>
+							<?php if ( $free_shipping_notice ) : ?>
+							<div class="az-checkout__free-shipping-note">
+								<?php echo esc_html( $free_shipping_notice ); ?>
+							</div>
+							<?php endif; ?>
 						</div>
 
 						<!-- Payment & Place Order -->

@@ -854,6 +854,14 @@ $ease: cubic-bezier(0.4, 0, 0.2, 1);
   margin-top: 0.15rem;
 }
 
+.zk__free-shipping-note {
+  font-style: italic;
+  color: $c-muted;
+  font-size: 12px;
+  line-height: 1.35;
+  margin-top: -0.2rem;
+}
+
 // ---- EMPTY STATE ----
 .zk__empty {
   text-align: center;
