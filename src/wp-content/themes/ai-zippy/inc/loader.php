@@ -50,6 +50,9 @@ AiZippy\Core\ThemeOptions::register();
 // Hooks
 AiZippy\Hooks\CacheInvalidation::register();
 AiZippy\Hooks\AgeGate::register();
+AiZippy\Hooks\FreeShippingRates::register();
+AiZippy\Hooks\Promotions::register();
+AiZippy\Hooks\OrderQuantityDiscount::register();
 
 // API
 add_action('rest_api_init', [AiZippy\Api\ProductFilterApi::class, 'register']);

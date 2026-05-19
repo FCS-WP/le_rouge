@@ -137,8 +137,22 @@ if ( ! $checkout->is_registration_enabled() && $checkout->is_registration_requir
 							<?php endif; ?>
 
 							<?php foreach ( WC()->cart->get_fees() as $fee ) : ?>
-							<div class="az-checkout__totals-row">
-								<span><?php echo esc_html( $fee->name ); ?></span>
+							<?php
+							$promotion_scope_note = (
+								$fee->amount < 0
+								&& class_exists( '\AiZippy\Hooks\OrderQuantityDiscount' )
+								&& str_starts_with( $fee->name, 'Promotion (' )
+							)
+								? \AiZippy\Hooks\OrderQuantityDiscount::getCategoryScopeNote()
+								: '';
+							?>
+							<div class="az-checkout__totals-row <?php echo $fee->amount < 0 ? 'az-checkout__totals-row--discount' : ''; ?>">
+								<span>
+									<?php echo esc_html( $fee->name ); ?>
+									<?php if ( $promotion_scope_note ) : ?>
+										<small class="az-checkout__promotion-scope"><?php echo esc_html( $promotion_scope_note ); ?></small>
+									<?php endif; ?>
+								</span>
 								<span><?php wc_cart_totals_fee_html( $fee ); ?></span>
 							</div>
 							<?php endforeach; ?>

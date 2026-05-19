@@ -360,6 +360,15 @@
   }
 }
 
+.az-checkout__promotion-scope {
+  color: $c-muted;
+  display: block;
+  font-size: 12px;
+  font-style: italic;
+  line-height: 1.35;
+  margin-top: 0.15rem;
+}
+
 // ---- PAYMENT SECTION (inside card) ----
 .az-checkout {
   #payment {

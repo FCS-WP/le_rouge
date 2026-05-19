@@ -80,6 +80,7 @@ class CheckoutAssets
             'shippingEnabled'   => 'yes' === get_option('woocommerce_calc_shipping', 'yes'),
             'shipToDestination' => get_option('woocommerce_ship_to_destination', 'shipping'),
             'customer'          => self::getCustomerData(),
+            'promotionScopeNote' => self::getPromotionScopeNote(),
         ]);
     }
 
@@ -114,6 +115,18 @@ class CheckoutAssets
         }
 
         return $gateways;
+    }
+
+    /**
+     * Get promotion category scope note for the React checkout sidebar.
+     */
+    private static function getPromotionScopeNote(): string
+    {
+        if (!class_exists(\AiZippy\Hooks\OrderQuantityDiscount::class)) {
+            return '';
+        }
+
+        return \AiZippy\Hooks\OrderQuantityDiscount::getCategoryScopeNote();
     }
 
     /**
