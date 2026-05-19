@@ -845,6 +845,15 @@ $ease: cubic-bezier(0.4, 0, 0.2, 1);
   }
 }
 
+.zk__promotion-scope {
+  color: $c-muted;
+  display: block;
+  font-size: 12px;
+  font-style: italic;
+  line-height: 1.35;
+  margin-top: 0.15rem;
+}
+
 // ---- EMPTY STATE ----
 .zk__empty {
   text-align: center;

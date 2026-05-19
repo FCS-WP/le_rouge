@@ -4,6 +4,7 @@ namespace AiZippy\Api;
 
 use AiZippy\Core\Cache;
 use AiZippy\Core\RateLimiter;
+use AiZippy\Hooks\Promotions;
 use WP_REST_Request;
 use WP_REST_Response;
 use WP_Error;
@@ -258,6 +259,8 @@ class ProductFilterApi
         $cached = Cache::get(Cache::FILTER_OPTIONS);
 
         if ($cached !== false) {
+            $cached['promotions'] = self::getPromotions();
+
             $response = new WP_REST_Response($cached, 200);
             $response->header('X-Cache', 'HIT');
             return $response;
@@ -267,6 +270,7 @@ class ProductFilterApi
             'categories'  => self::getCategories(),
             'attributes'  => self::getAttributes(),
             'price_range' => self::getPriceRange(),
+            'promotions'  => self::getPromotions(),
         ];
 
         Cache::set(Cache::FILTER_OPTIONS, $data, Cache::FILTER_OPTIONS_TTL);
@@ -397,6 +401,55 @@ class ProductFilterApi
             'count'  => $cat->count,
             'parent' => $cat->parent,
         ], $categories);
+    }
+
+    private static function getPromotions(): array
+    {
+        if (!class_exists(Promotions::class)) {
+            return [
+                'categories' => [],
+                'rules' => [],
+            ];
+        }
+
+        $settings = Promotions::getSettings();
+        $promotion_categories = self::getPromotionCategories($settings['categories']);
+
+        if (empty($promotion_categories) || empty($settings['rules'])) {
+            return [
+                'categories' => [],
+                'rules' => [],
+            ];
+        }
+
+        return [
+            'categories' => $promotion_categories,
+            'rules' => array_map(static fn(array $rule): array => [
+                'quantity' => (int) $rule['quantity'],
+                'discount' => (float) $rule['discount'],
+            ], $settings['rules']),
+        ];
+    }
+
+    private static function getPromotionCategories(array $category_ids): array
+    {
+        $promotion_categories = [];
+
+        foreach ($category_ids as $category_id) {
+            $category = get_term((int) $category_id, 'product_cat');
+
+            if (!$category || is_wp_error($category)) {
+                continue;
+            }
+
+            $promotion_categories[] = [
+                'id' => $category->term_id,
+                'name' => $category->name,
+                'slug' => $category->slug,
+            ];
+        }
+
+        return $promotion_categories;
     }
 
     private static function getAttributes(): array

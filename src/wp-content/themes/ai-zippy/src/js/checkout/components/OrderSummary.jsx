@@ -10,8 +10,9 @@ export default function OrderSummary({
 	busyKeys,
 	placeOrderButton,
 }) {
-	const { items, totals, coupons } = cart;
-	const currency = totals.currency_code || "USD";
+	const { items, totals, coupons, fees } = cart;
+	const currency = totals.currency_code || "SGD";
+	const promotionScopeNote = window.aiZippyCheckout?.promotionScopeNote || "";
 
 	return (
 		<aside className="zk__sidebar">
@@ -116,6 +117,35 @@ export default function OrderSummary({
 					<span>{formatPrice(totals.total_items, currency)}</span>
 				</div>
 
+				{fees?.map((fee) => {
+					const feeTotal = parseInt(fee.totals?.total || "0", 10);
+					const isDiscount = feeTotal < 0;
+					const { label, scope } = splitPromotionLabel(
+						fee.name || "",
+						promotionScopeNote
+					);
+
+					return (
+						<div
+							key={fee.key || fee.name}
+							className={`zk__totals-row${
+								isDiscount ? " zk__totals-row--discount" : ""
+							}`}
+						>
+							<span>
+								{label}
+								{scope && (
+									<small className="zk__promotion-scope">{scope}</small>
+								)}
+							</span>
+							<span>
+								{isDiscount ? "-" : ""}
+								{formatPrice(Math.abs(feeTotal), currency)}
+							</span>
+						</div>
+					);
+				})}
+
 				{parseInt(totals.total_shipping, 10) > 0 && (
 					<div className="zk__totals-row">
 						<span>Shipping</span>
@@ -159,4 +189,20 @@ function formatPrice(priceInCents, currency = "USD") {
 	} catch {
 		return `$${amount.toFixed(2)}`;
 	}
+}
+
+function splitPromotionLabel(label, fallbackScope = "") {
+	const scopeMatch = label.match(/\s+\(\*Only for .+\)$/);
+
+	if (!scopeMatch) {
+		return {
+			label,
+			scope: label.startsWith("Promotion (") ? fallbackScope : "",
+		};
+	}
+
+	return {
+		label: label.slice(0, scopeMatch.index),
+		scope: scopeMatch[0].trim().slice(1, -1),
+	};
 }

@@ -4,6 +4,7 @@ $sf-primary: #8b1c3f; // Crimson
 $sf-accent: #b8964a;  // Gold
 $sf-bg: #f8f5f0;      // Light beige/off-white from mockup
 $sf-border: rgba(26, 10, 13, 0.08);
+$sf-muted: var(--wp--preset--color--muted);
 $sf-radius: 8px;
 $sf-transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 
@@ -348,6 +349,84 @@ $sf-transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 	&:hover {
 		color: #e53935;
 	}
+}
+
+.sf__promotion-notice {
+	background: $sf-bg;
+	border: 1px solid $sf-border;
+	border-radius: $sf-radius;
+	box-shadow: 0 6px 18px rgba(26, 10, 13, 0.06);
+	margin-top: 0.25rem;
+	overflow: hidden;
+	padding: 0.85rem 0.95rem 0.95rem;
+	position: relative;
+
+	&::before {
+		background: $sf-primary;
+		content: "";
+		inset: 0 auto 0 0;
+		position: absolute;
+		width: 3px;
+	}
+}
+
+.sf__promotion-label {
+	color: $sf-primary;
+	display: block;
+	font-size: 0.72rem;
+	font-weight: 700;
+	letter-spacing: 0.5px;
+	line-height: 1.3;
+	margin-bottom: 0.25rem;
+	text-transform: uppercase;
+}
+
+.sf__promotion-categories {
+	align-items: center;
+	color: $sf-primary;
+	display: inline-flex;
+	font-size: 0.82rem;
+	font-style: italic;
+	font-weight: 600;
+	line-height: 1.45;
+	margin-bottom: 0.55rem;
+}
+
+.sf__promotion-rules {
+	display: flex;
+	flex-direction: column;
+	gap: 0.35rem;
+	list-style: none;
+	margin: 0;
+	padding: 0;
+
+	li {
+		align-items: center;
+		background: #fff;
+		border: 1px solid $sf-border;
+		border-radius: 6px;
+		color: $sf-muted;
+		display: flex;
+		font-size: 0.78rem;
+		font-style: italic;
+		justify-content: space-between;
+		line-height: 1.35;
+		padding: 0.4rem 0.55rem;
+	}
+}
+
+.sf__promotion-arrow {
+	color: $sf-primary;
+	font-style: normal;
+	font-weight: 700;
+	margin: 0 0.25rem;
+}
+
+.sf__promotion-discount {
+	color: $sf-primary;
+	font-size: 0.8rem;
+	font-style: normal;
+	font-weight: 700;
 }
 
 // Checkbox / Radio
