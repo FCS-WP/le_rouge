@@ -13,6 +13,7 @@ export default function OrderSummary({
 	const { items, totals, coupons, fees } = cart;
 	const currency = totals.currency_code || "SGD";
 	const promotionScopeNote = window.aiZippyCheckout?.promotionScopeNote || "";
+	const freeShippingNotice = window.aiZippyCheckout?.freeShippingNotice || "";
 
 	return (
 		<aside className="zk__sidebar">
@@ -171,6 +172,10 @@ export default function OrderSummary({
 					<span>Total</span>
 					<span>{formatPrice(totals.total_price, currency)}</span>
 				</div>
+
+				{freeShippingNotice && (
+					<div className="zk__free-shipping-note">{freeShippingNotice}</div>
+				)}
 			</div>
 
 			{placeOrderButton}

@@ -369,6 +369,13 @@
   margin-top: 0.15rem;
 }
 
+.az-checkout__free-shipping-note {
+  color: $c-muted;
+  font-size: 12px;
+  line-height: 1.35;
+  margin-top: -0.2rem;
+}
+
 // ---- PAYMENT SECTION (inside card) ----
 .az-checkout {
   #payment {

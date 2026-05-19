@@ -81,6 +81,7 @@ class CheckoutAssets
             'shipToDestination' => get_option('woocommerce_ship_to_destination', 'shipping'),
             'customer'          => self::getCustomerData(),
             'promotionScopeNote' => self::getPromotionScopeNote(),
+            'freeShippingNotice' => self::getFreeShippingNotice(),
         ]);
     }
 
@@ -127,6 +128,18 @@ class CheckoutAssets
         }
 
         return \AiZippy\Hooks\OrderQuantityDiscount::getCategoryScopeNote();
+    }
+
+    /**
+     * Get free shipping notice for the React checkout sidebar.
+     */
+    private static function getFreeShippingNotice(): string
+    {
+        if (!class_exists(\AiZippy\Hooks\FreeShippingRates::class)) {
+            return '';
+        }
+
+        return \AiZippy\Hooks\FreeShippingRates::getNoticeText();
     }
 
     /**

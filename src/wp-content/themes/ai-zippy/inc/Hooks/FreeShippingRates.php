@@ -44,4 +44,72 @@ class FreeShippingRates
 
         return !empty($free_shipping) ? $free_shipping : $rates;
     }
+
+    /**
+     * Get the configured free shipping minimum amount.
+     */
+    public static function getMinimumAmount(): ?float
+    {
+        if (!class_exists('\WC_Shipping_Zones')) {
+            return null;
+        }
+
+        $amounts = [];
+
+        foreach (self::getShippingZones() as $zone) {
+            foreach ($zone->get_shipping_methods(true) as $method) {
+                if ('free_shipping' !== $method->id || 'yes' !== $method->enabled) {
+                    continue;
+                }
+
+                $requires = $method->get_option('requires');
+
+                if (!in_array($requires, ['min_amount', 'either', 'both'], true)) {
+                    continue;
+                }
+
+                $minimum = (float) $method->get_option('min_amount');
+
+                if ($minimum > 0) {
+                    $amounts[] = $minimum;
+                }
+            }
+        }
+
+        return !empty($amounts) ? min($amounts) : null;
+    }
+
+    /**
+     * Get the free shipping notice text.
+     */
+    public static function getNoticeText(): string
+    {
+        $minimum = self::getMinimumAmount();
+
+        if (null === $minimum) {
+            return '';
+        }
+
+        return sprintf(
+            /* translators: %s: formatted free shipping minimum amount. */
+            __('* Free shipping on orders over %s', 'ai-zippy'),
+            html_entity_decode(wp_strip_all_tags(wc_price($minimum)))
+        );
+    }
+
+    /**
+     * Get all WooCommerce shipping zones, including the default zone.
+     */
+    private static function getShippingZones(): array
+    {
+        $zones = [];
+
+        foreach (\WC_Shipping_Zones::get_zones() as $zone_data) {
+            $zones[] = \WC_Shipping_Zones::get_zone((int) $zone_data['zone_id']);
+        }
+
+        $zones[] = \WC_Shipping_Zones::get_zone(0);
+
+        return $zones;
+    }
 }
