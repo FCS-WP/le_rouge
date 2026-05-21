@@ -10,10 +10,13 @@ $viewAllText = $attributes['viewAllText'] ?? '';
 $viewAllUrl  = $attributes['viewAllUrl'] ?? '#';
 
 // Query parameters
-$limit    = $attributes['limit'] ?? 4;
-$category = $attributes['category'] ?? '';
-$orderby  = $attributes['orderby'] ?? 'date';
-$order    = $attributes['order'] ?? 'DESC';
+$selected_product_ids = array_values(array_filter(array_map('absint', $attributes['selectedProductIds'] ?? [])));
+$limit                = max(1, absint($attributes['limit'] ?? 4));
+$desktop_columns      = min(6, max(1, absint($attributes['desktopColumns'] ?? 4)));
+$desktop_rows         = min(4, max(1, absint($attributes['desktopRows'] ?? 1)));
+$category             = sanitize_title($attributes['category'] ?? '');
+$orderby              = sanitize_key($attributes['orderby'] ?? 'date');
+$order                = strtoupper($attributes['order'] ?? 'DESC') === 'ASC' ? 'ASC' : 'DESC';
 
 $query_args = [
     'limit'    => $limit,
@@ -23,7 +26,11 @@ $query_args = [
     'visibility' => 'catalog',
 ];
 
-if (!empty($category)) {
+if (!empty($selected_product_ids)) {
+    $query_args['include'] = $selected_product_ids;
+    $query_args['limit']   = count($selected_product_ids);
+    $query_args['orderby'] = 'include';
+} elseif (!empty($category)) {
     $query_args['category'] = [$category];
 }
 
@@ -62,7 +69,10 @@ foreach ($products as &$p) {
     }
 }
 
-$wrapper_attributes = get_block_wrapper_attributes(['class' => 'product-section']);
+$wrapper_attributes = get_block_wrapper_attributes([
+    'class' => 'product-section',
+    'style' => '--az-product-columns:' . $desktop_columns . '; --az-product-rows:' . $desktop_rows . ';',
+]);
 ?>
 
 <section <?php echo $wrapper_attributes; ?>>
@@ -93,7 +103,7 @@ $wrapper_attributes = get_block_wrapper_attributes(['class' => 'product-section'
                             <?php if (!empty($prod['image'])) : ?>
                                 <img src="<?php echo esc_url($prod['image']); ?>" alt="<?php echo esc_attr($prod['name']); ?>" loading="lazy">
                             <?php else : ?>
-                                <div class="placeholder-img" style="aspect-ratio:3/4; background:#eee;"></div>
+                                <div class="placeholder-img"></div>
                             <?php endif; ?>
                         </a>
                     </div>

@@ -10,10 +10,12 @@ $viewAllText = $attributes['viewAllText'] ?? '';
 $viewAllUrl  = $attributes['viewAllUrl'] ?? '#';
 
 // Query parameters
-$limit    = $attributes['limit'] ?? 4;
-$category = $attributes['category'] ?? '';
-$orderby  = $attributes['orderby'] ?? 'date';
-$order    = $attributes['order'] ?? 'DESC';
+$desktop_columns = min(6, max(1, absint($attributes['desktopColumns'] ?? 4)));
+$desktop_rows    = min(4, max(1, absint($attributes['desktopRows'] ?? 2)));
+$limit           = $desktop_columns * $desktop_rows;
+$category        = sanitize_title($attributes['category'] ?? '');
+$orderby         = 'date';
+$order           = 'DESC';
 
 $query_args = [
     'limit'    => $limit,
@@ -62,7 +64,10 @@ foreach ($products as &$p) {
     }
 }
 
-$wrapper_attributes = get_block_wrapper_attributes(['class' => 'product-section']);
+$wrapper_attributes = get_block_wrapper_attributes([
+    'class' => 'product-section',
+    'style' => '--az-product-columns:' . $desktop_columns . '; --az-product-rows:' . $desktop_rows . ';',
+]);
 ?>
 
 <section <?php echo $wrapper_attributes; ?>>
@@ -93,7 +98,7 @@ $wrapper_attributes = get_block_wrapper_attributes(['class' => 'product-section'
                             <?php if (!empty($prod['image'])) : ?>
                                 <img src="<?php echo esc_url($prod['image']); ?>" alt="<?php echo esc_attr($prod['name']); ?>" loading="lazy">
                             <?php else : ?>
-                                <div class="placeholder-img" style="aspect-ratio:3/4; background:#eee;"></div>
+                                <div class="placeholder-img"></div>
                             <?php endif; ?>
                         </a>
                     </div>

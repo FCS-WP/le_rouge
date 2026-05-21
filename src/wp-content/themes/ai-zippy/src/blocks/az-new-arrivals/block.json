@@ -6,7 +6,7 @@
 	"title": "AZ: New Arrivals",
 	"category": "ai-zippy",
 	"icon": "star-filled",
-	"description": "Display latest products from the New Arrivals category.",
+	"description": "Display the latest WooCommerce products.",
 	"supports": {
 		"html": false,
 		"anchor": true,
@@ -21,8 +21,10 @@
 		"title": { "type": "string", "default": "New Arrivals" },
 		"viewAllText": { "type": "string", "default": "View All →" },
 		"viewAllUrl": { "type": "string", "default": "#" },
-		"limit": { "type": "number", "default": 4 },
-		"category": { "type": "string", "default": "new-arrivals" },
+		"limit": { "type": "number", "default": 6 },
+		"desktopColumns": { "type": "number", "default": 4 },
+		"desktopRows": { "type": "number", "default": 2 },
+		"category": { "type": "string", "default": "" },
 		"orderby": {
 			"type": "string",
 			"default": "date"

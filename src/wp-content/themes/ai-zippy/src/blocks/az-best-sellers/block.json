@@ -6,7 +6,7 @@
 	"title": "AZ: Best Sellers",
 	"category": "ai-zippy",
 	"icon": "awards",
-	"description": "Display products from the Best Sellers category.",
+	"description": "Display selected best seller products with a category fallback.",
 	"supports": {
 		"html": false,
 		"anchor": true,
@@ -21,7 +21,16 @@
 		"title": { "type": "string", "default": "Best Sellers" },
 		"viewAllText": { "type": "string", "default": "View All →" },
 		"viewAllUrl": { "type": "string", "default": "#" },
+		"selectedProductIds": {
+			"type": "array",
+			"default": [],
+			"items": {
+				"type": "number"
+			}
+		},
 		"limit": { "type": "number", "default": 4 },
+		"desktopColumns": { "type": "number", "default": 4 },
+		"desktopRows": { "type": "number", "default": 1 },
 		"category": { "type": "string", "default": "best-sellers" },
 		"orderby": {
 			"type": "string",
