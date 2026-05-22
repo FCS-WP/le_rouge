@@ -1,24 +1,31 @@
 .section-divider {
-  max-width: 1280px;
-  margin: 0 auto 80px;
-  padding: 0 48px;
-  display: flex !important;
-  align-items: center;
-  gap: 24px;
+	max-width: 1280px;
+	margin: 0 auto 80px;
+	padding: 0 48px;
+	display: flex !important;
+	align-items: center;
+	gap: 24px;
 
-  &::before,
-  &::after {
-    content: '';
-    flex: 1;
-    height: 0.5px;
-    background: var(--border-light);
-  }
+	&::before,
+	&::after {
+		content: "";
+		flex: 1;
+		height: 0.5px;
+		background: var(--border-light);
+	}
 
-  .section-divider-inner {
-    font-size: 9px;
-    letter-spacing: 4px;
-    text-transform: uppercase;
-    color: var(--gold);
-    white-space: nowrap;
-  }
+	.section-divider-inner {
+		font-size: 9px;
+		letter-spacing: 4px;
+		text-transform: uppercase;
+		color: var(--gold);
+		white-space: nowrap;
+	}
+}
+
+@media (max-width: 768px) {
+
+	.section-divider {
+		padding: 30px 10px;
+	}
 }
