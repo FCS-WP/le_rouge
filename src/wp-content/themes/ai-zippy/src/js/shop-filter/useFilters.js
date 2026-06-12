@@ -1,8 +1,9 @@
-import { useState, useCallback, useRef, useEffect } from "react";
+import { useState, useCallback, useRef, useEffect, useMemo } from "react";
 
 const DEFAULTS = {
 	search: "",
 	category: "",
+	exclude_category: "",
 	min_price: 0,
 	max_price: 0,
 	attributes: "",
@@ -14,10 +15,32 @@ const DEFAULTS = {
 };
 
 export default function useFilters(config = {}) {
+	const lockedCategoryConfig = config.locked_category || "";
+	const categoryConfig = config.category || "";
+	const excludedCategoryConfig = config.exclude_category || "";
+	const perPageConfig = config.per_page || DEFAULTS.per_page;
+	const lockedCategories = useMemo(
+		() => normalizeCategoryList(lockedCategoryConfig),
+		[lockedCategoryConfig],
+	);
+	const excludedCategories = useMemo(
+		() => normalizeCategoryList(excludedCategoryConfig),
+		[excludedCategoryConfig],
+	);
+	const baseFilters = useMemo(
+		() => ({
+			...DEFAULTS,
+			per_page: perPageConfig,
+			category: mergeCategories(categoryConfig, lockedCategories),
+			exclude_category: excludedCategoryConfig,
+		}),
+		[categoryConfig, excludedCategoryConfig, lockedCategories, perPageConfig],
+	);
+
 	const [filters, setFilters] = useState(() => {
 		// Read initial state from URL params, with config overrides
 		const params = new URLSearchParams(window.location.search);
-		const initial = { ...DEFAULTS, ...config };
+		const initial = { ...baseFilters };
 
 		for (const key of Object.keys(DEFAULTS)) {
 			const val = params.get(key);
@@ -25,6 +48,8 @@ export default function useFilters(config = {}) {
 				initial[key] = typeof DEFAULTS[key] === "number" ? Number(val) : val;
 			}
 		}
+
+		initial.category = mergeCategories(initial.category, lockedCategories);
 
 		return initial;
 	});
@@ -34,22 +59,26 @@ export default function useFilters(config = {}) {
 	const updateFilter = useCallback((key, value) => {
 		setFilters((prev) => ({
 			...prev,
-			[key]: value,
+			[key]: key === "category" ? mergeCategories(value, lockedCategories) : value,
 			page: key === "page" ? value : 1, // Reset page when filter changes
 		}));
-	}, []);
+	}, [lockedCategories]);
 
 	const updateMultiple = useCallback((updates) => {
 		setFilters((prev) => ({
 			...prev,
 			...updates,
+			category: mergeCategories(
+				updates.category ?? prev.category,
+				lockedCategories,
+			),
 			page: updates.page ?? 1,
 		}));
-	}, []);
+	}, [lockedCategories]);
 
 	const resetFilters = useCallback(() => {
-		setFilters({ ...DEFAULTS });
-	}, []);
+		setFilters({ ...baseFilters });
+	}, [baseFilters]);
 
 	const setSearch = useCallback(
 		(value) => {
@@ -66,14 +95,14 @@ export default function useFilters(config = {}) {
 	useEffect(() => {
 		const params = new URLSearchParams();
 		for (const [key, value] of Object.entries(filters)) {
-			if (value !== DEFAULTS[key] && value !== "" && value !== 0) {
+			if (value !== baseFilters[key] && value !== "" && value !== 0) {
 				params.set(key, value);
 			}
 		}
 		const qs = params.toString();
 		const url = window.location.pathname + (qs ? `?${qs}` : "");
 		window.history.replaceState(null, "", url);
-	}, [filters]);
+	}, [baseFilters, filters]);
 
 	// Build attributes string from object: { pa_color: ['red'], pa_size: ['l'] } -> "pa_color:red|pa_size:l"
 	const toggleAttribute = useCallback(
@@ -108,6 +137,10 @@ export default function useFilters(config = {}) {
 
 	const toggleCategory = useCallback(
 		(slug) => {
+			if (lockedCategories.includes(slug)) {
+				return;
+			}
+
 			setFilters((prev) => {
 				const current = prev.category ? prev.category.split(",") : [];
 				const idx = current.indexOf(slug);
@@ -118,10 +151,14 @@ export default function useFilters(config = {}) {
 					current.splice(idx, 1);
 				}
 
-				return { ...prev, category: current.join(","), page: 1 };
+				return {
+					...prev,
+					category: mergeCategories(current.join(","), lockedCategories),
+					page: 1,
+				};
 			});
 		},
-		[],
+		[lockedCategories],
 	);
 
 	return {
@@ -132,7 +169,21 @@ export default function useFilters(config = {}) {
 		setSearch,
 		toggleAttribute,
 		toggleCategory,
+		lockedCategories,
+		excludedCategories,
 	};
+}
+
+function normalizeCategoryList(category) {
+	return category
+		.split(",")
+		.map((slug) => slug.trim())
+		.filter(Boolean);
+}
+
+function mergeCategories(category, lockedCategories) {
+	const selected = normalizeCategoryList(category);
+	return Array.from(new Set([...selected, ...lockedCategories])).join(",");
 }
 
 function parseAttributes(str) {

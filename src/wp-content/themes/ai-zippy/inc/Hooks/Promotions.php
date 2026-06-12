@@ -295,6 +295,10 @@ class Promotions
             'rules' => [
                 [
                     'quantity' => 3,
+                    'discount' => 10.0,
+                ],
+                [
+                    'quantity' => 6,
                     'discount' => 15.0,
                 ],
             ],
@@ -379,9 +383,15 @@ class Promotions
         });
 
         if (empty($rules)) {
-            $rules[] = [
-                'quantity' => 3,
-                'discount' => 15.0,
+            $rules = [
+                [
+                    'quantity' => 3,
+                    'discount' => 10.0,
+                ],
+                [
+                    'quantity' => 6,
+                    'discount' => 15.0,
+                ],
             ];
         }
 

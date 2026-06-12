@@ -6,6 +6,8 @@ export default function FilterPanel({
 	onSearch,
 	onToggleCategory,
 	onToggleAttribute,
+	lockedCategories = [],
+	excludedCategories = [],
 	onPriceChange,
 	onStockChange,
 	layout,
@@ -22,6 +24,10 @@ export default function FilterPanel({
 	const promotionRules = promotions.rules || [];
 	const showPromotionNotice =
 		promotionCategories.length > 0 && promotionRules.length > 0;
+	const showCategoryFilter = options.categories.length > 0 && lockedCategories.length === 0;
+	const categories = options.categories.filter(
+		(category) => !excludedCategories.includes(category.slug),
+	);
 
 	const panelClass = [
 		"sf__filters",
@@ -58,10 +64,10 @@ export default function FilterPanel({
 				</div>
 
 				{/* Categories */}
-				{options.categories.length > 0 && (
+				{showCategoryFilter && categories.length > 0 && (
 					<FilterSection title="Categories" defaultOpen>
 						<CategoryList
-							categories={options.categories}
+							categories={categories}
 							selected={selectedCategories}
 							onToggle={onToggleCategory}
 						/>

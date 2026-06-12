@@ -612,8 +612,8 @@ $sf-transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 		aspect-ratio: 1 / 1;
 		object-fit: contain;
 		display: block;
-		padding: 1rem;
-		transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+		padding: 1.25rem 1rem;
+		box-sizing: border-box;
 	}
 
 	.sf__grid--list & {
@@ -624,10 +624,6 @@ $sf-transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 			height: 100%;
 			aspect-ratio: auto;
 		}
-	}
-
-	.sf__card:hover & > a > img {
-		transform: scale(1.06);
 	}
 }
 

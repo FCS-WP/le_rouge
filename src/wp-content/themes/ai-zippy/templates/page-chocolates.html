@@ -1,7 +1,7 @@
 <!-- wp:template-part {"slug":"header","area":"header"} /-->
 
-<!-- wp:group {"tagName":"main","className":"shop-page","layout":{"type":"default"}} -->
-<main class="wp-block-group shop-page">
+<!-- wp:group {"tagName":"main","className":"shop-page shop-page--locked-category","layout":{"type":"default"}} -->
+<main class="wp-block-group shop-page shop-page--locked-category">
 
 <!-- wp:group {"tagName":"section","className":"shop-hero","layout":{"type":"constrained","contentSize":"100%"}} -->
 <section class="wp-block-group shop-hero">
@@ -13,7 +13,7 @@
 			<p class="eyebrow">Le Rouge Singapore</p>
 			<!-- /wp:paragraph -->
 
-			<!-- wp:query-title {"type":"archive","className":"shop-page-title serif"} /-->
+			<!-- wp:post-title {"level":1,"className":"shop-page-title serif"} /-->
 
 			<!-- wp:paragraph {"className":"shop-page-sub"} -->
 			<p class="shop-page-sub">Singapore's premier boutique for fine wine and premium spirits. Expertly curated for the discerning palate.</p>
@@ -35,17 +35,20 @@
 
 <!-- wp:woocommerce/store-notices /-->
 
+<!-- wp:post-content {"layout":{"type":"constrained"}} /-->
+
 <!-- wp:group {"style":{"spacing":{"padding":{"top":"2rem","bottom":"4rem","left":"2rem","right":"2rem"}}},"layout":{"type":"constrained","contentSize":"1200px"}} -->
 <div class="wp-block-group" style="padding-top:2rem;padding-right:2rem;padding-bottom:4rem;padding-left:2rem">
 <!-- wp:html -->
+<style>.shop-page--locked-category .sf__section--search + .sf__section{display:none}</style>
 <script>
 (function () {
-	if (window.aiZippyShopExcludeCategoryFetch) {
+	if (window.aiZippyLockedCategoryFetch) {
 		return;
 	}
 
-	window.aiZippyShopExcludeCategoryFetch = true;
-	var excludedCategory = "chocolates";
+	window.aiZippyLockedCategoryFetch = true;
+	var lockedCategory = "chocolates";
 	var originalFetch = window.fetch.bind(window);
 
 	window.fetch = function (resource, init) {
@@ -53,31 +56,15 @@
 
 		if (requestUrl && requestUrl.indexOf("/wp-json/ai-zippy/v1/products") !== -1) {
 			var url = new URL(requestUrl, window.location.origin);
-			url.searchParams.set("exclude_category", excludedCategory);
+			url.searchParams.set("category", lockedCategory);
 			resource = typeof resource === "string" ? url.toString() : new Request(url.toString(), resource);
 		}
 
 		return originalFetch(resource, init);
 	};
-
-	var hideExcludedCategory = function () {
-		document.querySelectorAll(".sf__cat-list .sf__checkbox").forEach(function (label) {
-			var labelText = label.querySelector(".sf__checkbox-label");
-
-			if (labelText && labelText.textContent.trim().toLowerCase() === excludedCategory) {
-				label.closest("li").hidden = true;
-			}
-		});
-	};
-
-	new MutationObserver(hideExcludedCategory).observe(document.documentElement, {
-		childList: true,
-		subtree: true
-	});
-	document.addEventListener("DOMContentLoaded", hideExcludedCategory);
 }());
 </script>
-<div id="ai-zippy-shop-filter" data-config='{"layout":"sidebar","exclude_category":"chocolates"}'></div>
+<div id="ai-zippy-shop-filter" data-config='{"layout":"sidebar","category":"chocolates","locked_category":"chocolates"}'></div>
 <!-- /wp:html -->
 </div>
 <!-- /wp:group -->
