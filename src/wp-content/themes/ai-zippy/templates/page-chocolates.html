@@ -40,30 +40,6 @@
 <!-- wp:group {"style":{"spacing":{"padding":{"top":"2rem","bottom":"4rem","left":"2rem","right":"2rem"}}},"layout":{"type":"constrained","contentSize":"1200px"}} -->
 <div class="wp-block-group" style="padding-top:2rem;padding-right:2rem;padding-bottom:4rem;padding-left:2rem">
 <!-- wp:html -->
-<style>.shop-page--locked-category .sf__section--search + .sf__section{display:none}</style>
-<script>
-(function () {
-	if (window.aiZippyLockedCategoryFetch) {
-		return;
-	}
-
-	window.aiZippyLockedCategoryFetch = true;
-	var lockedCategory = "chocolates";
-	var originalFetch = window.fetch.bind(window);
-
-	window.fetch = function (resource, init) {
-		var requestUrl = typeof resource === "string" ? resource : resource.url;
-
-		if (requestUrl && requestUrl.indexOf("/wp-json/ai-zippy/v1/products") !== -1) {
-			var url = new URL(requestUrl, window.location.origin);
-			url.searchParams.set("category", lockedCategory);
-			resource = typeof resource === "string" ? url.toString() : new Request(url.toString(), resource);
-		}
-
-		return originalFetch(resource, init);
-	};
-}());
-</script>
 <div id="ai-zippy-shop-filter" data-config='{"layout":"sidebar","category":"chocolates","locked_category":"chocolates"}'></div>
 <!-- /wp:html -->
 </div>

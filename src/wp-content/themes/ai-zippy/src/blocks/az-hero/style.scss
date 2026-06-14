@@ -29,7 +29,7 @@
 	}
 
 	.hero-eyebrow {
-		margin-bottom: 28px;
+		margin: 0 0 18px;
 	}
 
 	.hero-title {
@@ -38,7 +38,7 @@
 		font-weight: 300;
 		line-height: 1.05;
 		color: var(--text-pri);
-		margin-bottom: 28px;
+		margin: 0 0 22px;
 
 		em {
 			font-style: italic;
@@ -51,7 +51,7 @@
 		line-height: 2;
 		color: var(--text-muted);
 		max-width: 400px;
-		margin-bottom: 48px;
+		margin: 0 0 40px;
 	}
 
 	.hero-cta {
@@ -119,11 +119,24 @@
 		grid-template-columns: 1fr;
 
 		.hero-content {
-			padding: 30px 10px;
+			padding: 36px 10px 30px;
 
 			&::after {
 				display: none;
 			}
+		}
+
+		.hero-eyebrow {
+			margin-bottom: 10px;
+		}
+
+		.hero-title {
+			margin-bottom: 12px;
+		}
+
+		.hero-subtitle {
+			line-height: 1.75;
+			margin-bottom: 22px;
 		}
 
 		.hero-visual {

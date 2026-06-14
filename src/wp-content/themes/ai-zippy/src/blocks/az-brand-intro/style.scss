@@ -69,16 +69,30 @@
 @media (max-width: 768px) {
 
 	.brand-intro {
-		padding: 30px 10px;
+		padding: 34px 10px;
 
 		.bi-inner {
 			grid-template-columns: 1fr;
-			gap: 40px;
+			gap: 26px;
 			padding: 0;
+		}
+
+		.bi-label {
+			margin-bottom: 12px;
 		}
 
 		.bi-heading {
 			font-size: 32px;
+			line-height: 1.12;
+		}
+
+		.bi-divider {
+			margin: 18px 0;
+		}
+
+		.bi-text {
+			line-height: 1.75;
+			margin-bottom: 12px;
 		}
 	}
 }

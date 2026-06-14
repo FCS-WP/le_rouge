@@ -5,16 +5,28 @@
 $transition: 0.25s ease;
 $radius: 12px;
 $radius-sm: 8px;
-$gray-bg: #f5f5f5;
-$gray-border: #eee;
-$gray-text: #888;
-$red: #e53935;
+$c-primary: var(--wp--preset--color--primary);
+$c-crimson: var(--wp--preset--color--crimson);
+$c-crimson-mid: var(--wp--preset--color--crimson-mid);
+$c-gold: var(--wp--preset--color--gold);
+$c-bg-light: var(--wp--preset--color--bg-light);
+$c-bg-cream: var(--wp--preset--color--bg-cream);
+$c-white: var(--wp--preset--color--white);
+$c-border: var(--wp--preset--color--border);
+$c-border-light: var(--wp--preset--color--border-light);
+$c-muted: var(--wp--preset--color--muted);
+$gray-bg: $c-bg-light;
+$gray-border: $c-border-light;
+$gray-text: $c-muted;
+$red: $c-crimson;
 
 // ---- CONTAINER ----
 .zc {
 	max-width: 1100px;
 	margin: 0 auto;
 	padding: 0;
+	color: $c-primary;
+	font-family: var(--wp--preset--font-family--sans);
 }
 
 // ---- ERROR TOAST ----
@@ -108,7 +120,7 @@ $red: #e53935;
 		display: block;
 		width: 60px;
 		height: 2px;
-		background: #ddd;
+	background: #ddd;
 		margin: 0 0.75rem;
 		flex-shrink: 0;
 	}
@@ -696,5 +708,127 @@ $red: #e53935;
 	.zc-empty__actions {
 		flex-direction: column;
 		align-items: center;
+	}
+}
+
+// ---- Theme-token polish for the cart app ----
+.cart-page {
+	background: $c-bg-light;
+}
+
+.zc-items,
+.zc-sidebar,
+.zc__skeleton-items,
+.zc__skeleton-sidebar,
+.zc-empty {
+	background: $c-white;
+	border: 1px solid $c-border-light;
+}
+
+.zc-empty {
+	border-radius: $radius;
+}
+
+.zc-steps__item .zc-steps__line {
+	background: $c-border;
+}
+
+.zc-steps__item.is-active .zc-steps__line,
+.zc-steps__item.is-done .zc-steps__line {
+	background: $c-crimson;
+}
+
+.zc-steps__num {
+	background: $c-bg-cream;
+	color: $c-muted;
+}
+
+.zc-steps__label,
+.zc-items__cols span,
+.zc-items__count,
+.zc-empty__text,
+.zc-sidebar__row span:first-child {
+	color: $c-muted;
+}
+
+.zc-steps__item.is-active .zc-steps__num,
+.zc-sidebar__promo-form button,
+.zc-sidebar__checkout,
+.zc-empty__btn--primary {
+	background: $c-crimson;
+	color: $c-white !important;
+}
+
+.zc-steps__item.is-active .zc-steps__label,
+.zc-items__title,
+.zc-row__name,
+.zc-row__price,
+.zc-sidebar__promo-title,
+.zc-sidebar__row span:last-child,
+.zc-sidebar__row--total span:first-child,
+.zc-sidebar__row--total span:last-child,
+.zc-empty__title {
+	color: $c-primary;
+}
+
+.zc-steps__item.is-done .zc-steps__num,
+.zc-empty__icon {
+	background: $c-gold;
+	color: $c-white;
+}
+
+.zc-row,
+.zc-row__qty,
+.zc-sidebar__promo-form input,
+.zc-empty__btn--secondary {
+	border-color: $c-border-light;
+}
+
+.zc-row:hover,
+.zc-empty__btn--secondary:hover {
+	border-color: $c-gold;
+}
+
+.zc-row__qty-btn,
+.zc-empty__btn--secondary {
+	color: $c-primary !important;
+}
+
+.zc-sidebar__promo-form input,
+.zc-row__qty-btn:hover:not(:disabled),
+.zc-sidebar__coupon-tag {
+	background: $c-bg-light;
+}
+
+.zc-sidebar__promo-form input:focus {
+	border-color: $c-gold;
+	background: $c-white;
+}
+
+.zc-sidebar__promo-form button:hover:not(:disabled),
+.zc-sidebar__checkout:hover,
+.zc-empty__btn--primary:hover {
+	background: $c-crimson-mid;
+}
+
+.zc-items__clear:hover,
+.zc-row__remove:hover:not(:disabled) {
+	background: $c-bg-cream;
+}
+
+.zc-sidebar__row--discount span:last-child {
+	color: $c-gold;
+}
+
+@media (max-width: 600px) {
+	.cart-page {
+		padding-right: 1rem !important;
+		padding-left: 1rem !important;
+	}
+
+	.zc-items,
+	.zc-sidebar,
+	.zc-empty {
+		padding: 1.1rem;
 	}
 }

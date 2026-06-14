@@ -276,6 +276,8 @@ class ProductFilterApi
         $cached = Cache::get(Cache::FILTER_OPTIONS);
 
         if ($cached !== false) {
+            $cached['attributes'] = self::withBrandAttribute($cached['attributes'] ?? []);
+            $cached['price_range']['min'] = 0;
             $cached['promotions'] = self::getPromotions();
 
             $response = new WP_REST_Response($cached, 200);
@@ -512,7 +514,35 @@ class ProductFilterApi
             }
         }
 
-        return $result;
+        return self::withBrandAttribute($result);
+    }
+
+    private static function withBrandAttribute(array $attributes): array
+    {
+        if (taxonomy_exists('product_brand')) {
+            foreach ($attributes as $attribute) {
+                if (($attribute['slug'] ?? '') === 'product_brand') {
+                    return $attributes;
+                }
+            }
+
+            $terms = get_terms(['taxonomy' => 'product_brand', 'hide_empty' => true]);
+
+            if (!is_wp_error($terms) && !empty($terms)) {
+                $attributes[] = [
+                    'name'    => 'Brands',
+                    'slug'    => 'product_brand',
+                    'type'    => 'select',
+                    'options' => array_map(fn($t) => [
+                        'name' => $t->name,
+                        'slug' => $t->slug,
+                        'count' => $t->count,
+                    ], $terms),
+                ];
+            }
+        }
+
+        return $attributes;
     }
 
     private static function getPriceRange(): array
@@ -531,7 +561,7 @@ class ProductFilterApi
         );
 
         return [
-            'min' => (float) ($row->min_price ?? 0),
+            'min' => 0,
             'max' => (float) ($row->max_price ?? 100),
         ];
     }

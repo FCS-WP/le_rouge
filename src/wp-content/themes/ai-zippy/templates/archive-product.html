@@ -38,45 +38,6 @@
 <!-- wp:group {"style":{"spacing":{"padding":{"top":"2rem","bottom":"4rem","left":"2rem","right":"2rem"}}},"layout":{"type":"constrained","contentSize":"1200px"}} -->
 <div class="wp-block-group" style="padding-top:2rem;padding-right:2rem;padding-bottom:4rem;padding-left:2rem">
 <!-- wp:html -->
-<script>
-(function () {
-	if (window.aiZippyShopExcludeCategoryFetch) {
-		return;
-	}
-
-	window.aiZippyShopExcludeCategoryFetch = true;
-	var excludedCategory = "chocolates";
-	var originalFetch = window.fetch.bind(window);
-
-	window.fetch = function (resource, init) {
-		var requestUrl = typeof resource === "string" ? resource : resource.url;
-
-		if (requestUrl && requestUrl.indexOf("/wp-json/ai-zippy/v1/products") !== -1) {
-			var url = new URL(requestUrl, window.location.origin);
-			url.searchParams.set("exclude_category", excludedCategory);
-			resource = typeof resource === "string" ? url.toString() : new Request(url.toString(), resource);
-		}
-
-		return originalFetch(resource, init);
-	};
-
-	var hideExcludedCategory = function () {
-		document.querySelectorAll(".sf__cat-list .sf__checkbox").forEach(function (label) {
-			var labelText = label.querySelector(".sf__checkbox-label");
-
-			if (labelText && labelText.textContent.trim().toLowerCase() === excludedCategory) {
-				label.closest("li").hidden = true;
-			}
-		});
-	};
-
-	new MutationObserver(hideExcludedCategory).observe(document.documentElement, {
-		childList: true,
-		subtree: true
-	});
-	document.addEventListener("DOMContentLoaded", hideExcludedCategory);
-}());
-</script>
 <div id="ai-zippy-shop-filter" data-config='{"layout":"sidebar","exclude_category":"chocolates"}'></div>
 <!-- /wp:html -->
 </div>
