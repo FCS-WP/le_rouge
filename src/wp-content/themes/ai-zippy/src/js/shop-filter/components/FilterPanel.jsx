@@ -6,6 +6,8 @@ export default function FilterPanel({
 	onSearch,
 	onToggleCategory,
 	onToggleAttribute,
+	lockedCategories = [],
+	excludedCategories = [],
 	onPriceChange,
 	onStockChange,
 	layout,
@@ -17,11 +19,11 @@ export default function FilterPanel({
 		: [];
 
 	const selectedAttributes = parseAttributes(filters.attributes);
-	const promotions = options.promotions || {};
-	const promotionCategories = promotions.categories || [];
-	const promotionRules = promotions.rules || [];
-	const showPromotionNotice =
-		promotionCategories.length > 0 && promotionRules.length > 0;
+	const showCategoryFilter = options.categories.length > 0 && lockedCategories.length === 0;
+	const categories = options.categories.filter(
+		(category) => !excludedCategories.includes(category.slug),
+	);
+	const attributes = getOrderedAttributes(options.attributes || []);
 
 	const panelClass = [
 		"sf__filters",
@@ -58,10 +60,10 @@ export default function FilterPanel({
 				</div>
 
 				{/* Categories */}
-				{options.categories.length > 0 && (
+				{showCategoryFilter && categories.length > 0 && (
 					<FilterSection title="Categories" defaultOpen>
 						<CategoryList
-							categories={options.categories}
+							categories={categories}
 							selected={selectedCategories}
 							onToggle={onToggleCategory}
 						/>
@@ -80,8 +82,12 @@ export default function FilterPanel({
 				</FilterSection>
 
 				{/* Product Attributes (color, size, brand, etc.) */}
-				{options.attributes.map((attr) => (
-					<FilterSection key={attr.slug} title={attr.name}>
+				{attributes.map((attr) => (
+					<FilterSection
+						key={attr.slug}
+						title={attr.isBrand ? "Brands" : attr.name}
+						defaultOpen={attr.isBrand}
+					>
 						<AttributeFilter
 							attribute={attr}
 							selected={selectedAttributes[attr.slug] || []}
@@ -99,13 +105,6 @@ export default function FilterPanel({
 						onChange={onStockChange}
 					/>
 				</FilterSection>
-
-				{showPromotionNotice && (
-					<PromotionNotice
-						categories={promotionCategories}
-						rules={promotionRules}
-					/>
-				)}
 			</aside>
 		</>
 	);
@@ -314,42 +313,6 @@ function StockFilter({ current, onChange }) {
 	);
 }
 
-function PromotionNotice({ categories, rules }) {
-	return (
-		<div className="sf__promotion-notice">
-			<span className="sf__promotion-label">Promotion categories</span>
-			<span className="sf__promotion-categories">
-				{categories.map((category) => category.name).join(", ")}
-			</span>
-			<ul className="sf__promotion-rules">
-				{rules.map((rule) => (
-					<li key={`${rule.quantity}-${rule.discount}`}>
-						<span>
-							{rule.quantity} {rule.quantity === 1 ? "product" : "products"}
-						</span>
-						<span className="sf__promotion-arrow">-&gt;</span>
-						<span className="sf__promotion-discount">
-							{formatPercent(rule.discount)}%
-						</span>
-					</li>
-				))}
-			</ul>
-		</div>
-	);
-}
-
-function formatPercent(value) {
-	const number = Number(value);
-
-	if (!Number.isFinite(number)) {
-		return value;
-	}
-
-	return Number.isInteger(number)
-		? String(number)
-		: number.toFixed(2).replace(/\.?0+$/, "");
-}
-
 function parseAttributes(str) {
 	const result = {};
 	if (!str) return result;
@@ -358,4 +321,19 @@ function parseAttributes(str) {
 		if (taxonomy && terms) result[taxonomy] = terms.split(",");
 	});
 	return result;
+}
+
+function getOrderedAttributes(attributes) {
+	return [...attributes]
+		.map((attribute) => ({
+			...attribute,
+			isBrand: isBrandAttribute(attribute),
+		}))
+		.sort((a, b) => Number(b.isBrand) - Number(a.isBrand));
+}
+
+function isBrandAttribute(attribute) {
+	const haystack = `${attribute.name || ""} ${attribute.slug || ""}`.toLowerCase();
+
+	return haystack.includes("brand");
 }

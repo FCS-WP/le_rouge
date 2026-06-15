@@ -60,6 +60,11 @@ add_action('rest_api_init', [AiZippy\Api\ProductFilterApi::class, 'register']);
 // Shop
 AiZippy\Shop\ShopAssets::register();
 
+// Product
+AiZippy\Product\ProductPromotionBanner::register();
+AiZippy\Product\ProductInformation::register();
+AiZippy\Product\ProductRelatedProducts::register();
+
 // Cart
 AiZippy\Cart\CartAssets::register();
 

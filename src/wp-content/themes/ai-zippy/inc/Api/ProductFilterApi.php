@@ -78,6 +78,7 @@ class ProductFilterApi
         return [
             'search'       => ['type' => 'string',  'sanitize_callback' => 'sanitize_text_field', 'default' => ''],
             'category'     => ['type' => 'string',  'sanitize_callback' => 'sanitize_text_field', 'default' => ''],
+            'exclude_category' => ['type' => 'string', 'sanitize_callback' => 'sanitize_text_field', 'default' => ''],
             'min_price'    => ['type' => 'number',  'sanitize_callback' => fn($v) => (float) $v,  'default' => 0],
             'max_price'    => ['type' => 'number',  'sanitize_callback' => fn($v) => (float) $v,  'default' => 0],
             'attributes'   => ['type' => 'string',  'sanitize_callback' => 'sanitize_text_field', 'default' => ''],
@@ -97,6 +98,7 @@ class ProductFilterApi
     {
         $search       = $request->get_param('search');
         $category     = $request->get_param('category');
+        $exclude_category = $request->get_param('exclude_category');
         $min_price    = $request->get_param('min_price');
         $max_price    = $request->get_param('max_price');
         $attributes   = $request->get_param('attributes');
@@ -148,6 +150,21 @@ class ProductFilterApi
             $args['category'] = array_map('trim', explode(',', $category));
         }
 
+        if (!empty($exclude_category)) {
+            $excluded_category_ids = self::getCategoryIdsFromSlugs($exclude_category);
+
+            if (!empty($excluded_category_ids)) {
+                $args['tax_query'] = array_merge($args['tax_query'] ?? [], [
+                    [
+                        'taxonomy' => 'product_cat',
+                        'field'    => 'term_id',
+                        'terms'    => $excluded_category_ids,
+                        'operator' => 'NOT IN',
+                    ],
+                ]);
+            }
+        }
+
         // Price range — wc_get_products() ignores min_price/max_price directly;
         // must filter via meta_query on _price.
         if ($min_price > 0 || $max_price > 0) {
@@ -176,7 +193,7 @@ class ProductFilterApi
         if (!empty($attributes)) {
             $tax_query = self::parseAttributeQuery($attributes);
             if (!empty($tax_query)) {
-                $args['tax_query'] = $tax_query;
+                $args['tax_query'] = array_merge($args['tax_query'] ?? [], $tax_query);
             }
         }
 
@@ -259,6 +276,8 @@ class ProductFilterApi
         $cached = Cache::get(Cache::FILTER_OPTIONS);
 
         if ($cached !== false) {
+            $cached['attributes'] = self::withBrandAttribute($cached['attributes'] ?? []);
+            $cached['price_range']['min'] = 0;
             $cached['promotions'] = self::getPromotions();
 
             $response = new WP_REST_Response($cached, 200);
@@ -329,6 +348,27 @@ class ProductFilterApi
         }
 
         return $tax_query;
+    }
+
+    private static function getCategoryIdsFromSlugs(string $slugs): array
+    {
+        $category_ids = [];
+
+        foreach (array_map('trim', explode(',', $slugs)) as $slug) {
+            if ($slug === '') {
+                continue;
+            }
+
+            $term = get_term_by('slug', $slug, 'product_cat');
+
+            if (!$term || is_wp_error($term)) {
+                continue;
+            }
+
+            $category_ids[] = (int) $term->term_id;
+        }
+
+        return array_values(array_unique($category_ids));
     }
 
     private static function formatProduct(WC_Product $product): array
@@ -474,7 +514,35 @@ class ProductFilterApi
             }
         }
 
-        return $result;
+        return self::withBrandAttribute($result);
+    }
+
+    private static function withBrandAttribute(array $attributes): array
+    {
+        if (taxonomy_exists('product_brand')) {
+            foreach ($attributes as $attribute) {
+                if (($attribute['slug'] ?? '') === 'product_brand') {
+                    return $attributes;
+                }
+            }
+
+            $terms = get_terms(['taxonomy' => 'product_brand', 'hide_empty' => true]);
+
+            if (!is_wp_error($terms) && !empty($terms)) {
+                $attributes[] = [
+                    'name'    => 'Brands',
+                    'slug'    => 'product_brand',
+                    'type'    => 'select',
+                    'options' => array_map(fn($t) => [
+                        'name' => $t->name,
+                        'slug' => $t->slug,
+                        'count' => $t->count,
+                    ], $terms),
+                ];
+            }
+        }
+
+        return $attributes;
     }
 
     private static function getPriceRange(): array
@@ -493,7 +561,7 @@ class ProductFilterApi
         );
 
         return [
-            'min' => (float) ($row->min_price ?? 0),
+            'min' => 0,
             'max' => (float) ($row->max_price ?? 100),
         ];
     }

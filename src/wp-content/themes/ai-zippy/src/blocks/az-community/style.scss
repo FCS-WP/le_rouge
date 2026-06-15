@@ -98,14 +98,24 @@
 @media (max-width: 768px) {
 
 	.community {
-		padding: 30px 10px;
+		padding: 34px 10px;
 
 		.community-inner {
 			padding: 0;
 		}
 
+		.community-title {
+			margin: 12px 0 10px;
+		}
+
+		.community-sub {
+			line-height: 1.7;
+			margin-bottom: 24px;
+		}
+
 		.social-grid {
 			grid-template-columns: repeat(2, 1fr);
+			margin-top: 30px;
 		}
 	}
 }

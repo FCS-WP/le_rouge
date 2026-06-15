@@ -1,6 +1,8 @@
 export default function ActiveFilters({
 	filters,
 	options,
+	lockedCategories = [],
+	onRemoveSearch,
 	onRemoveCategory,
 	onRemoveAttribute,
 	onClearAll,
@@ -12,13 +14,17 @@ export default function ActiveFilters({
 		tags.push({
 			key: "search",
 			label: `"${filters.search}"`,
-			onRemove: () => onRemoveCategory("__search__"),
+			onRemove: onRemoveSearch,
 		});
 	}
 
 	// Categories
 	if (filters.category) {
 		filters.category.split(",").forEach((slug) => {
+			if (lockedCategories.includes(slug)) {
+				return;
+			}
+
 			const cat = options.categories.find((c) => c.slug === slug);
 			tags.push({
 				key: `cat-${slug}`,

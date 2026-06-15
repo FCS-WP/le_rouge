@@ -19,6 +19,7 @@
 			flex-direction: column;
 			align-items: flex-start;
 			padding: 48px 24px;
+			gap: 22px;
 		}
 	}
 
@@ -35,6 +36,31 @@
 		font-size: 13px;
 		color: var(--text-muted);
 		max-width: 400px;
+	}
+
+	.btn-outline {
+		background: $c-primary;
+		border-color: $c-primary;
+		color: $c-white !important;
+
+		&:hover {
+			background: $c-crimson;
+			border-color: $c-crimson;
+		}
+	}
+
+	@media (max-width: 768px) {
+		.shop-hero-inner > .wp-block-group:last-child,
+		.shop-hero-inner > .wp-block-group:last-child p {
+			width: 100%;
+			margin: 0;
+			text-align: left;
+		}
+
+		.btn-outline {
+			margin-left: 0;
+			align-self: flex-start;
+		}
 	}
 }
 

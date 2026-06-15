@@ -1,30 +1,36 @@
 <!-- wp:template-part {"slug":"header","area":"header"} /-->
 
-<!-- wp:group {"tagName":"main","style":{"spacing":{"padding":{"top":"2rem","bottom":"4rem","left":"2rem","right":"2rem"}}},"layout":{"type":"constrained","contentSize":"1200px"}} -->
-<main class="wp-block-group" style="padding-top:2rem;padding-right:2rem;padding-bottom:4rem;padding-left:2rem">
+<!-- wp:group {"tagName":"main","className":"az-single-product","layout":{"type":"constrained","contentSize":"1120px"}} -->
+<main class="wp-block-group az-single-product">
 
-	<!-- wp:woocommerce/breadcrumbs {"fontSize":"small","style":{"spacing":{"margin":{"bottom":"2rem"}}}} /-->
+	<!-- wp:group {"className":"az-single-product__breadcrumb","layout":{"type":"default"}} -->
+	<div class="wp-block-group az-single-product__breadcrumb">
+		<!-- wp:woocommerce/breadcrumbs {"fontSize":"small"} /-->
+	</div>
+	<!-- /wp:group -->
 
 	<!-- wp:woocommerce/store-notices /-->
 
-	<!-- wp:columns {"style":{"spacing":{"blockGap":{"left":"3rem"}}}} -->
-	<div class="wp-block-columns">
-
-		<!-- wp:column {"width":"50%"} -->
-		<div class="wp-block-column" style="flex-basis:50%">
+	<!-- wp:group {"className":"az-single-product__grid","layout":{"type":"default"}} -->
+	<div class="wp-block-group az-single-product__grid">
+		<!-- wp:group {"className":"az-single-product__gallery","layout":{"type":"default"}} -->
+		<div class="wp-block-group az-single-product__gallery">
 			<!-- wp:woocommerce/product-image-gallery /-->
 		</div>
-		<!-- /wp:column -->
+		<!-- /wp:group -->
 
-		<!-- wp:column {"width":"50%"} -->
-		<div class="wp-block-column" style="flex-basis:50%">
-			<!-- wp:post-title {"level":1,"fontSize":"x-large","style":{"spacing":{"margin":{"bottom":"1rem"}}}} /-->
-			<!-- wp:woocommerce/product-price {"fontSize":"large","style":{"spacing":{"margin":{"bottom":"1.5rem"}}}} /-->
-			<!-- wp:post-excerpt {"style":{"spacing":{"margin":{"bottom":"1.5rem"}}}} /-->
+		<!-- wp:group {"className":"az-single-product__summary","layout":{"type":"default"}} -->
+		<div class="wp-block-group az-single-product__summary">
+			<!-- wp:post-title {"level":1} /-->
+			<!-- wp:woocommerce/product-price /-->
+			<!-- wp:post-excerpt /-->
 			<!-- wp:woocommerce/add-to-cart-form /-->
+			<!-- wp:shortcode -->
+			[ai_zippy_product_promotion_banner]
+			<!-- /wp:shortcode -->
 			<!-- wp:woocommerce/product-meta -->
-				<!-- wp:group {"layout":{"type":"flex","flexWrap":"wrap"},"style":{"spacing":{"blockGap":"0.5rem","margin":{"top":"1.5rem"}}}} -->
-				<div class="wp-block-group" style="margin-top:1.5rem">
+				<!-- wp:group {"className":"az-single-product__meta","layout":{"type":"flex","flexWrap":"wrap"},"style":{"spacing":{"blockGap":"0.75rem"}}} -->
+				<div class="wp-block-group az-single-product__meta">
 					<!-- wp:woocommerce/product-sku {"isDescendentOfSingleProductBlock":true,"fontSize":"small"} /-->
 					<!-- wp:post-terms {"term":"product_cat","fontSize":"small"} /-->
 					<!-- wp:post-terms {"term":"product_tag","fontSize":"small"} /-->
@@ -32,19 +38,26 @@
 				<!-- /wp:group -->
 			<!-- /wp:woocommerce/product-meta -->
 		</div>
-		<!-- /wp:column -->
+		<!-- /wp:group -->
 
-	</div>
-	<!-- /wp:columns -->
+		<!-- wp:group {"className":"az-single-product__info","layout":{"type":"default"}} -->
+		<div class="wp-block-group az-single-product__info">
+			<!-- wp:heading -->
+			<h2 class="wp-block-heading">Product Information</h2>
+			<!-- /wp:heading -->
+			<!-- wp:shortcode -->
+			[ai_zippy_product_information]
+			<!-- /wp:shortcode -->
+		</div>
+		<!-- /wp:group -->
 
-	<!-- wp:woocommerce/product-details {"style":{"spacing":{"margin":{"top":"3rem"}}}} /-->
-
-	<!-- wp:group {"style":{"spacing":{"margin":{"top":"3rem"}}},"layout":{"type":"constrained"}} -->
-	<div class="wp-block-group" style="margin-top:3rem">
-		<!-- wp:heading {"fontSize":"large","style":{"spacing":{"margin":{"bottom":"1.5rem"}}}} -->
-		<h2 class="wp-block-heading has-large-font-size" style="margin-bottom:1.5rem">Related Products</h2>
-		<!-- /wp:heading -->
-		<!-- wp:woocommerce/related-products {"columns":4} /-->
+		<!-- wp:group {"className":"az-single-product__related","layout":{"type":"default"}} -->
+		<div class="wp-block-group az-single-product__related">
+			<!-- wp:shortcode -->
+			[ai_zippy_related_products]
+			<!-- /wp:shortcode -->
+		</div>
+		<!-- /wp:group -->
 	</div>
 	<!-- /wp:group -->
 

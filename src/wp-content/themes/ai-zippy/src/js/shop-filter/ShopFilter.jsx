@@ -27,7 +27,14 @@ export default function ShopFilter({ config }) {
 		setSearch,
 		toggleAttribute,
 		toggleCategory,
-	} = useFilters({ per_page: config.per_page || 12 });
+		lockedCategories,
+		excludedCategories,
+	} = useFilters({
+		per_page: config.per_page || 12,
+		category: config.category || "",
+		exclude_category: config.exclude_category || "",
+		locked_category: config.locked_category || "",
+	});
 
 	// Load filter options once
 	useEffect(() => {
@@ -101,6 +108,8 @@ export default function ShopFilter({ config }) {
 				<ActiveFilters
 					filters={filters}
 					options={options}
+					lockedCategories={lockedCategories}
+					onRemoveSearch={() => updateFilter("search", "")}
 					onRemoveCategory={toggleCategory}
 					onRemoveAttribute={toggleAttribute}
 					onClearAll={resetFilters}
@@ -115,6 +124,8 @@ export default function ShopFilter({ config }) {
 					onSearch={setSearch}
 					onToggleCategory={toggleCategory}
 					onToggleAttribute={toggleAttribute}
+					lockedCategories={lockedCategories}
+					excludedCategories={excludedCategories}
 					onPriceChange={(min, max) => {
 						updateFilter("min_price", min);
 						setTimeout(() => updateFilter("max_price", max), 0);

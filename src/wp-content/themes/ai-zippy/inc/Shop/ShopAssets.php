@@ -26,7 +26,7 @@ class ShopAssets
             return;
         }
 
-        if (!\is_shop() && !is_product_taxonomy()) {
+        if (!\is_shop() && !is_product_taxonomy() && !is_page('chocolates')) {
             return;
         }
 

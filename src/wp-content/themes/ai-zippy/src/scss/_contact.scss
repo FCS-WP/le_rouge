@@ -8,10 +8,18 @@
     text-align: left;
     width: 100%;
 
+    @media (max-width: 768px) {
+        padding-top: 0;
+    }
+
     .contact-hero-inner {
         max-width: 1280px;
         margin: 0 auto;
         padding: 72px 48px 60px;
+
+        @media (max-width: 768px) {
+            padding: 40px 12px 34px;
+        }
     }
 
     .contact-page-title {
@@ -40,7 +48,13 @@
 
     @media (max-width: 960px) {
         grid-template-columns: 1fr;
-        gap: 60px;
+        gap: 40px;
+        padding: 48px 24px;
+    }
+
+    @media (max-width: 768px) {
+        gap: 28px;
+        padding: 32px 12px 40px;
     }
 }
 
@@ -56,6 +70,10 @@
     padding: 36px 32px;
     position: relative;
     transition: transform 0.3s ease;
+
+    @media (max-width: 768px) {
+        padding: 24px 12px 24px 16px;
+    }
 
     &::before {
         content: '';
