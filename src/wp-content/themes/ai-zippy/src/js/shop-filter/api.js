@@ -14,8 +14,18 @@ export async function fetchProducts(params = {}) {
 	return res.json();
 }
 
-export async function fetchFilterOptions() {
-	const res = await fetch(`${BASE}/filter-options`);
+export async function fetchFilterOptions(params = {}) {
+	const query = new URLSearchParams();
+
+	["category", "exclude_category"].forEach((key) => {
+		const value = params[key];
+		if (value !== "" && value !== null && value !== undefined) {
+			query.set(key, value);
+		}
+	});
+
+	const suffix = query.toString() ? `?${query.toString()}` : "";
+	const res = await fetch(`${BASE}/filter-options${suffix}`);
 	if (!res.ok) throw new Error("Failed to fetch filter options");
 	return res.json();
 }

@@ -38,8 +38,11 @@ export default function ShopFilter({ config }) {
 
 	// Load filter options once
 	useEffect(() => {
-		fetchFilterOptions().then(setOptions).catch(console.error);
-	}, []);
+		fetchFilterOptions({
+			category: filters.category,
+			exclude_category: filters.exclude_category,
+		}).then(setOptions).catch(console.error);
+	}, [filters.category, filters.exclude_category]);
 
 	// Load products when filters change
 	useEffect(() => {

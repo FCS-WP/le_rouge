@@ -839,7 +839,7 @@ $sf-transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 	transition: background $sf-transition, transform $sf-transition;
 
 	&:hover {
-		background: #2a3d66;
+		background: $sf-accent;
 		transform: translateY(-1px);
 	}
 }
