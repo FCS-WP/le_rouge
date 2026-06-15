@@ -45,6 +45,7 @@ class ProductFilterApi
             'methods'             => 'GET',
             'callback'            => [self::class, 'getFilterOptions'],
             'permission_callback' => [self::class, 'checkPermission'],
+            'args'                => self::getFilterOptionArgs(),
         ]);
     }
 
@@ -87,6 +88,22 @@ class ProductFilterApi
             'order'        => ['type' => 'string',  'sanitize_callback' => 'sanitize_text_field', 'default' => 'ASC'],
             'page'         => ['type' => 'integer', 'sanitize_callback' => 'absint',              'default' => 1],
             'per_page'     => ['type' => 'integer', 'sanitize_callback' => 'absint',              'default' => 12],
+        ];
+    }
+
+    private static function getFilterOptionArgs(): array
+    {
+        return [
+            'category' => [
+                'type' => 'string',
+                'sanitize_callback' => 'sanitize_text_field',
+                'default' => '',
+            ],
+            'exclude_category' => [
+                'type' => 'string',
+                'sanitize_callback' => 'sanitize_text_field',
+                'default' => '',
+            ],
         ];
     }
 
@@ -273,6 +290,20 @@ class ProductFilterApi
 
     public static function getFilterOptions(WP_REST_Request $request): WP_REST_Response
     {
+        $category = $request->get_param('category');
+        $exclude_category = $request->get_param('exclude_category');
+        $scoped_product_ids = self::getScopedProductIds($category, $exclude_category);
+        $is_scoped = $category !== '' || $exclude_category !== '';
+
+        if ($is_scoped) {
+            return new WP_REST_Response([
+                'categories'  => self::getCategories(),
+                'attributes'  => self::getAttributes($scoped_product_ids),
+                'price_range' => self::getPriceRange($scoped_product_ids),
+                'promotions'  => self::getPromotions(),
+            ], 200);
+        }
+
         $cached = Cache::get(Cache::FILTER_OPTIONS);
 
         if ($cached !== false) {
@@ -287,8 +318,8 @@ class ProductFilterApi
 
         $data = [
             'categories'  => self::getCategories(),
-            'attributes'  => self::getAttributes(),
-            'price_range' => self::getPriceRange(),
+            'attributes'  => self::getAttributes(null),
+            'price_range' => self::getPriceRange(null),
             'promotions'  => self::getPromotions(),
         ];
 
@@ -369,6 +400,55 @@ class ProductFilterApi
         }
 
         return array_values(array_unique($category_ids));
+    }
+
+    private static function getScopedProductIds(string $category, string $exclude_category): ?array
+    {
+        $tax_query = [];
+
+        if ($category !== '') {
+            $included_category_ids = self::getCategoryIdsFromSlugs($category);
+
+            if (!empty($included_category_ids)) {
+                $tax_query[] = [
+                    'taxonomy' => 'product_cat',
+                    'field'    => 'term_id',
+                    'terms'    => $included_category_ids,
+                    'operator' => 'IN',
+                ];
+            }
+        }
+
+        if ($exclude_category !== '') {
+            $excluded_category_ids = self::getCategoryIdsFromSlugs($exclude_category);
+
+            if (!empty($excluded_category_ids)) {
+                $tax_query[] = [
+                    'taxonomy' => 'product_cat',
+                    'field'    => 'term_id',
+                    'terms'    => $excluded_category_ids,
+                    'operator' => 'NOT IN',
+                ];
+            }
+        }
+
+        if (empty($tax_query)) {
+            return null;
+        }
+
+        if (count($tax_query) > 1) {
+            $tax_query['relation'] = 'AND';
+        }
+
+        $query = new \WP_Query([
+            'post_type'      => 'product',
+            'post_status'    => 'publish',
+            'fields'         => 'ids',
+            'posts_per_page' => -1,
+            'tax_query'      => $tax_query,
+        ]);
+
+        return array_map('intval', $query->posts);
     }
 
     private static function formatProduct(WC_Product $product): array
@@ -492,13 +572,13 @@ class ProductFilterApi
         return $promotion_categories;
     }
 
-    private static function getAttributes(): array
+    private static function getAttributes(?array $product_ids = null): array
     {
         $result = [];
 
         foreach (wc_get_attribute_taxonomies() as $attribute) {
             $taxonomy = wc_attribute_taxonomy_name($attribute->attribute_name);
-            $terms = get_terms(['taxonomy' => $taxonomy, 'hide_empty' => true]);
+            $terms = self::getTermsForProducts($taxonomy, $product_ids);
 
             if (!is_wp_error($terms) && !empty($terms)) {
                 $result[] = [
@@ -514,10 +594,10 @@ class ProductFilterApi
             }
         }
 
-        return self::withBrandAttribute($result);
+        return self::withBrandAttribute($result, $product_ids);
     }
 
-    private static function withBrandAttribute(array $attributes): array
+    private static function withBrandAttribute(array $attributes, ?array $product_ids = null): array
     {
         if (taxonomy_exists('product_brand')) {
             foreach ($attributes as $attribute) {
@@ -526,7 +606,7 @@ class ProductFilterApi
                 }
             }
 
-            $terms = get_terms(['taxonomy' => 'product_brand', 'hide_empty' => true]);
+            $terms = self::getTermsForProducts('product_brand', $product_ids);
 
             if (!is_wp_error($terms) && !empty($terms)) {
                 $attributes[] = [
@@ -545,9 +625,82 @@ class ProductFilterApi
         return $attributes;
     }
 
-    private static function getPriceRange(): array
+    private static function getTermsForProducts(string $taxonomy, ?array $product_ids = null): array
+    {
+        if (is_array($product_ids) && empty($product_ids)) {
+            return [];
+        }
+
+        $args = [
+            'taxonomy'   => $taxonomy,
+            'hide_empty' => true,
+        ];
+
+        if (is_array($product_ids)) {
+            $args['object_ids'] = $product_ids;
+        }
+
+        $terms = get_terms($args);
+
+        if (is_wp_error($terms) || empty($terms)) {
+            return [];
+        }
+
+        if (!is_array($product_ids)) {
+            return $terms;
+        }
+
+        return array_values(array_filter(array_map(
+            static function ($term) use ($taxonomy, $product_ids) {
+                $count = self::countProductsForTerm($taxonomy, (int) $term->term_id, $product_ids);
+
+                if ($count < 1) {
+                    return null;
+                }
+
+                $term->count = $count;
+                return $term;
+            },
+            $terms
+        )));
+    }
+
+    private static function countProductsForTerm(string $taxonomy, int $term_id, array $product_ids): int
+    {
+        $query = new \WP_Query([
+            'post_type'      => 'product',
+            'post_status'    => 'publish',
+            'fields'         => 'ids',
+            'posts_per_page' => -1,
+            'post__in'       => $product_ids,
+            'tax_query'      => [
+                [
+                    'taxonomy' => $taxonomy,
+                    'field'    => 'term_id',
+                    'terms'    => [$term_id],
+                ],
+            ],
+        ]);
+
+        return (int) $query->found_posts;
+    }
+
+    private static function getPriceRange(?array $product_ids = null): array
     {
         global $wpdb;
+
+        if (is_array($product_ids) && empty($product_ids)) {
+            return [
+                'min' => 0,
+                'max' => 0,
+            ];
+        }
+
+        $product_filter = '';
+
+        if (is_array($product_ids)) {
+            $product_filter = ' AND post_id IN (' . implode(',', array_map('intval', $product_ids)) . ')';
+        }
 
         $row = $wpdb->get_row(
             "SELECT MIN(CAST(meta_value AS DECIMAL(10,2))) as min_price,
@@ -557,7 +710,8 @@ class ProductFilterApi
              AND post_id IN (
                  SELECT ID FROM {$wpdb->posts}
                  WHERE post_type = 'product' AND post_status = 'publish'
-             )"
+             )
+             {$product_filter}"
         );
 
         return [
